@@ -19,4 +19,4 @@ bot.command(ROUTES.help, async (ctx) => help(ctx));
 
 bot.on('message', (ctx) => onMessage(ctx));
 
-bot.start();
+bot.start({ onStart: () => console.log('Bot running...') });
