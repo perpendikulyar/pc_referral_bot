@@ -1,7 +1,8 @@
-import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
+import getConfig from '../config';
 
-import keys from '../../.jwt.keys.json';
+const config = getConfig();
+const keys = config.googleapiConfig;
 
 export class AuthService {
     readonly client: JWT;
