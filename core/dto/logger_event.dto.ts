@@ -1,8 +1,8 @@
 import { DTO } from './dto';
 
 export class LoggerEvent extends DTO {
-    readonly tableName: string = 'logs'
-    
+    readonly tableName: string = 'logs';
+
     readonly savedProps: string[] = [
         'dateTime',
         'username',
@@ -20,7 +20,11 @@ export class LoggerEvent extends DTO {
         this.dateTime = new Date();
     }
 
-    static createAndSave(username: string, event: string, message: string = "") {
+    static createAndSave(
+        username: string,
+        event: string,
+        message: string = ''
+    ) {
         const rec = new LoggerEvent();
         rec.username = username;
         rec.event = event;

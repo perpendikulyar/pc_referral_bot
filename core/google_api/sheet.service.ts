@@ -1,4 +1,7 @@
-import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
+import {
+    GoogleSpreadsheet,
+    GoogleSpreadsheetWorksheet,
+} from 'google-spreadsheet';
 
 import { AuthService } from './auth.service';
 import getConfig from '../config';

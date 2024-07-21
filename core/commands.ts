@@ -11,11 +11,15 @@ export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
     LoggerEvent.createAndSave(name, 'start');
-    await ctx.reply(`Welcome ${name}`);
+    await ctx.reply(`Welcome ${name}`, {
+        reply_markup: {
+            keyboard: [[{ text: 'Generate New Link' }]],
+        },
+    });
 }
 
 export async function generate(ctx: CommandContext<Context>) {
-    const user =  ctx.from;
+    const user = ctx.from;
     const name = user?.username || 'guest';
     const url = getUrl(name);
     UserLink.createAndSave(name, url);
@@ -25,7 +29,7 @@ export async function generate(ctx: CommandContext<Context>) {
 }
 
 export async function help(ctx: CommandContext<Context>) {
-    const user =  ctx.from;
+    const user = ctx.from;
     LoggerEvent.createAndSave(user?.username || 'guest', 'help');
     await ctx.reply('this is help text');
 }
@@ -33,12 +37,21 @@ export async function help(ctx: CommandContext<Context>) {
 export async function onMessage(ctx: Context) {
     const user = ctx.from;
     const message = ctx.message;
-    LoggerEvent.createAndSave(
-        user?.username || 'guest',
-        'message',
-        `text: ${message?.text}`
-    );
-    await ctx.reply(
-        `This bot is not provided unusual text commands, but you can use /generate command to get your own Refferal Link or use Menu tos see full list`
-    );
+    const text = message?.text || '';
+
+    switch (text) {
+        case 'Generate New Link': {
+            await generate(ctx as CommandContext<Context>);
+            break;
+        }
+        default:
+            LoggerEvent.createAndSave(
+                user?.username || 'guest',
+                'message',
+                `text: ${text}`
+            );
+            await ctx.reply(
+                `This bot is not provided unusual text commands, but you can use /generate command to get your own Refferal Link or use Menu tos see full list`
+            );
+    }
 }

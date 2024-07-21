@@ -5,7 +5,7 @@ export abstract class DTO {
     abstract savedProps: string[];
     private service: SheetService;
 
-    constructor () {
+    constructor() {
         this.service = new SheetService();
     }
 
