@@ -8,8 +8,19 @@
         "prettier": "3.3.3",
         "typescript": "^5.5.3"
     },
+    "scripts": {
+        "build": "tsc -p .",
+        "start:n": "node dist/bot.js",
+        "start:w": "",
+        "start": "npm run build && node dist/bot.js",
+        "clean": "rm -rf dist"
+    },
     "dependencies": {
         "dotenv": "^16.4.5",
-        "grammy": "^1.27.0"
+        "google-auth-library": "^9.11.0",
+        "google-spreadsheet": "^4.1.2",
+        "googleapis": "^140.0.1",
+        "grammy": "^1.27.0",
+        "ts-node": "^10.9.2"
     }
 }

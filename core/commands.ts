@@ -1,6 +1,12 @@
 import { CommandContext, Context } from 'grammy';
 
+import getConfig from '../core/config';
 import getUrl from './link';
+import { SheetService } from './google_api/sheet.service';
+
+const config = getConfig();
+
+const sheetService = new SheetService(config.sheetId);
 
 export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
@@ -12,6 +18,7 @@ export async function generate(ctx: CommandContext<Context>) {
     const user = await ctx.from;
     const name = user?.username || 'guest';
     const url = getUrl(name);
+    await sheetService.update({ name: name, link: url });
     await ctx.reply(`${url}`, { link_preview_options: { is_disabled: true } });
     await ctx.reply(`Explain message`);
 }

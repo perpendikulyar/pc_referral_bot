@@ -1,12 +1,11 @@
 const baseUrl: String = 'https://productcamp.ru/';
 const utmMedium: String = 'referral';
-const utmSource: String = 'gen';
-const utmCampaign: String = 'programm_participant';
+const utmCampaign: String = 'refProg';
 
 /*
  *  TODO: add link minifier
  */
 
 export default function getUrl(ref: String) {
-    return `${baseUrl}?ref=${ref}&utm_medium=${utmMedium}&utm_source=${utmSource}&utm_campaign=${utmCampaign}`;
+    return `${baseUrl}?utm_medium=${utmMedium}&utm_source=${ref}&utm_campaign=${utmCampaign}`;
 }
