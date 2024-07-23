@@ -16,11 +16,10 @@ export abstract class DTO {
     getProps() {
         let props: string[] = [];
 
-        for (const [key, value] of Object.entries(this)) {
-            if (this.savedProps.includes(key)) {
-                props.push(value);
-            }
-        }
+        this.savedProps.forEach((e) => {
+            props.push(Object.getOwnPropertyDescriptor(this, e)?.value || "");
+        });
+
         return props;
     }
 }

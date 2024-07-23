@@ -10,14 +10,14 @@ export class LoggerEvent extends DTO {
         'message',
     ];
 
-    private dateTime: Date;
+    private dateTime: string;
     private username?: String;
     private event?: String;
     private message?: String;
 
     constructor() {
         super();
-        this.dateTime = new Date();
+        this.dateTime = new Date().toLocaleString('ru-RU', {timeZone: 'UTC'});
     }
 
     static createAndSave(
