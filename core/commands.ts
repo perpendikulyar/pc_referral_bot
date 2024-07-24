@@ -5,8 +5,11 @@ import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
 import { LoggerEvent } from './dto/logger_event.dto';
 import { locale } from './localisations';
+import { SheetService } from './google_api/sheet.service';
 
 const config = getConfig();
+
+const sheetService = new SheetService();
 
 export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
@@ -60,12 +63,35 @@ export async function help(ctx: CommandContext<Context>) {
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
     const user = ctx.from;
+    const name = user?.username || 'guest';
     const lang = user?.language_code;
-    await ctx.reply(locale(lang).generatorExplainMore);
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad.text(locale(lang).getInvite, 'getInvite');
+    await ctx.reply(locale(lang).generatorExplainMore, {
+        reply_markup: inlineKeyborad,
+    });
+    LoggerEvent.createAndSave(name, 'generatorMore');
 }
 
 export async function onGetLink(ctx: Context) {
     await generate(ctx as CommandContext<Context>);
+}
+
+export async function onGetInvite(ctx: Context) {
+    const user = ctx.from;
+    const name = user?.username || 'guest';
+    const lang = user?.language_code;
+    const inviteText = await sheetService.getInvite();
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad.text(locale(lang).getAnotherInvite, 'getInvite');
+    LoggerEvent.createAndSave(name, 'getInvite');
+    await ctx.reply(
+        inviteText + '\n' + locale(lang).register + '\n\n' + getUrl(name),
+        {
+            link_preview_options: { is_disabled: true },
+            reply_markup: inlineKeyborad,
+        }
+    );
 }
 
 /** messages recived */

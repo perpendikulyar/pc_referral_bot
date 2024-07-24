@@ -8,6 +8,7 @@ import {
     start,
     onGeneratorMore,
     onGetLink,
+    onGetInvite,
 } from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
@@ -29,5 +30,7 @@ bot.on('message', async (ctx) => onMessage(ctx));
 bot.callbackQuery('generatorMoreData', async (ctx) => onGeneratorMore(ctx));
 
 bot.callbackQuery('getLink', async (ctx) => onGetLink(ctx));
+
+bot.callbackQuery('getInvite', async (ctx) => onGetInvite(ctx));
 
 bot.start({ onStart: () => console.log('Bot running...') });

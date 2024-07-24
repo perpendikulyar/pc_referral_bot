@@ -10,7 +10,7 @@
     },
     "scripts": {
         "pretify": "npx prettier . --write",
-        "build": "npm run pretify && tsc -p .",
+        "build": "tsc -p .",
         "start:n": "node dist/bot.js",
         "start:w": "",
         "start": "npm run build && node dist/bot.js",

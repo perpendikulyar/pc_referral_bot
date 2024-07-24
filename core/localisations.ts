@@ -11,6 +11,9 @@ interface Locale {
     unknown: string;
     cmdGenerate: string;
     cmdHelp: string;
+    getInvite: string;
+    getAnotherInvite: string;
+    register: string;
 }
 
 const localeRU: Locale = {
@@ -31,6 +34,9 @@ const localeRU: Locale = {
     unknown: `Этот бот пока не умеет общаться по всем вопросам, но ты можешь выполнить команду /generate для создания своей реферальной ссылки`,
     cmdGenerate: 'Получить ссылку',
     cmdHelp: 'Памагите',
+    getInvite: 'Сгенерировать приглашение',
+    getAnotherInvite: 'Еще одно',
+    register: 'Регистрируйся по моей ссылке 👇',
 };
 
 const localeDefault: Locale = {
@@ -51,12 +57,15 @@ Run /generate command to get the link and send it to all your interested friends
     unknown: `This bot is not provided unusual text commands, but you can use /generate command to get your own Refferal Link or use Menu tos see full list`,
     cmdGenerate: `Get new link`,
     cmdHelp: 'Help me',
+    getInvite: 'Generate invite message',
+    getAnotherInvite: 'One more',
+    register: 'Register with link below 👇',
 };
 
 export function locale(lang: string = ''): Locale {
     if (lang === 'ru') {
         return localeRU;
     } else {
-        return localeDefault;
+        return localeRU;
     }
 }
