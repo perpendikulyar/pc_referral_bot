@@ -1,10 +1,14 @@
 name: Build Docker Image and Push to Evolution Artifact Registry
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+env: 
+  CR_URI: mnikolashin.cr.cloud.ru
+  CR_REP: pc_referral_bot
 jobs:
   build:
     runs-on: ubuntu-latest
