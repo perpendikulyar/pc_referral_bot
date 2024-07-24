@@ -1,16 +1,16 @@
 #Build app
-FROM node:lts
+FROM node:22-alpine
 
-WORKDIR /app
+WORKDIR usr/src/app
 
 COPY package.json /app/package.json
 
-RUN npm ci
+RUN npm install
 
-COPY . /app
+COPY . .
 
-ENV CI=true
+EXPOSE="8080"
 
-RUN npx tsc
+RUN npm run build
 
 CMD ['npm', 'run' 'start:n']
