@@ -1,9 +1,10 @@
 #Build app
 FROM node:22-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json /app/package.json
+COPY package.json  .
+COPY package-lock.json .
 
 RUN npm install
 
