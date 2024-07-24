@@ -68,6 +68,7 @@ export async function onGeneratorMore(ctx: Context) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad.text(locale(lang).getInvite, 'getInvite');
     await ctx.reply(locale(lang).generatorExplainMore, {
+        parse_mode: 'Markdown',
         reply_markup: inlineKeyborad,
     });
     LoggerEvent.createAndSave(name, 'generatorMore');
