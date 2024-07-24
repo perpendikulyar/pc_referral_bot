@@ -32,4 +32,32 @@ export class SheetService {
             console.error(err);
         }
     }
+
+    async getInvite() {
+        const sheet = await this.getSheet('invites');
+        const rows = await sheet.getRows({ limit: 25 });
+
+        let p1: string[] = [];
+        let p2: string[] = [];
+        let p3: string[] = [];
+        let p4: string[] = [];
+
+        rows.forEach(async (e) => {
+            if (e.get('p1')) p1.push(e.get('p1'));
+            if (e.get('p2')) p2.push(e.get('p2'));
+            if (e.get('p3')) p3.push(e.get('p3'));
+            if (e.get('p4')) p4.push(e.get('p4'));
+        });
+
+        return (
+            p1[Math.floor(Math.random() * p1.length)] +
+            '\n\n' +
+            p2[Math.floor(Math.random() * p2.length)] +
+            '\n' +
+            p3[Math.floor(Math.random() * p3.length)] +
+            '\n\n' +
+            p4[Math.floor(Math.random() * p4.length)] +
+            '\n'
+        );
+    }
 }

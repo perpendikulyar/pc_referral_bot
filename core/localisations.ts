@@ -11,6 +11,9 @@ interface Locale {
     unknown: string;
     cmdGenerate: string;
     cmdHelp: string;
+    getInvite: string;
+    getAnotherInvite: string;
+    register: string;
 }
 
 const localeRU: Locale = {
@@ -20,8 +23,11 @@ const localeRU: Locale = {
     welcomeMore: `За подробностями переходи по ссылке 👇\n`,
     generatorExplain: `Это твоя персональная ссылка\n
 Пригласи на ProductCamp своих коллег и друзей, мы уверены среди них будет много заинтересованных 🙏`,
-    generatorExplainMore: `😎 Вот несколько несколько классынх рекомендаций, чтобы все получилось и ты не облажался:\n
-    ...`,
+    generatorExplainMore: `😎 *Вот несколько несколько классынх рекомендаций, чтобы все получилось и ты не облажался:*\n\n
+🤓 Поделись ссылкой с коллегами и друзьями из индустрии — со своей компанией на кэмпе точно будет веселее!\n\n
+👩‍🎤 У тебя наверняка есть есть чатики продактов, маркетологов, дизайнеров и других диджитал-профессионалов — закинь ссылку туда, им точно будет интересно\n\n
+🧑‍🚀 *Продвинутый левел:* попроси эйчаров в своей компании рассказать о Кэмпе профильным сотрудникам и поделись с ними ссылкой \n\n
+🫶 А еще мы сделали генератор инвайтов — воспользуйся им, и получишь прикольный текст приглашения 💅`,
     generatorMoreBtn: '🤔 Как мне привести много реферралов?',
     moreAboutLabel: `Подробнее о программе`,
     moreAboutUrl: `https://productcamp.ru`,
@@ -31,6 +37,9 @@ const localeRU: Locale = {
     unknown: `Этот бот пока не умеет общаться по всем вопросам, но ты можешь выполнить команду /generate для создания своей реферальной ссылки`,
     cmdGenerate: 'Получить ссылку',
     cmdHelp: 'Памагите',
+    getInvite: 'Сгенерировать приглашение',
+    getAnotherInvite: 'Еще одно',
+    register: 'Регистрируйся по моей ссылке 👇',
 };
 
 const localeDefault: Locale = {
@@ -41,7 +50,10 @@ const localeDefault: Locale = {
     generatorExplain: `This is your personal link\n
     invite your colleagues and friends to ProductCamp 2024🙏`,
     generatorExplainMore: `😎 Here's some awesome tips and hints to don't screw up and get success:\n
-    ...`,
+🤓 Share the link with colleagues and friends from the industry - it will be more fun with your company at the camp!\n\n
+👩‍🎤 You probably have chats of PM, Marketing Manager, Designers and other profesionals from digital industry - post the link there, they will definitely be interested\n\n
+🧑‍🚀 *Advanced level:* ask the HR in your company to send invitation to relevant employees about Camp and share the link with them \n\n
+🫶 Also we've made an invite generator - use it and you’ll get a cool invitation text 💅`,
     generatorMoreBtn: '🤔 How to get more referrals?',
     moreAboutLabel: `Learn more about programm`,
     moreAboutUrl: `https://productcamp.ru`,
@@ -51,12 +63,15 @@ Run /generate command to get the link and send it to all your interested friends
     unknown: `This bot is not provided unusual text commands, but you can use /generate command to get your own Refferal Link or use Menu tos see full list`,
     cmdGenerate: `Get new link`,
     cmdHelp: 'Help me',
+    getInvite: 'Generate invite message',
+    getAnotherInvite: 'One more',
+    register: 'Register with link below 👇',
 };
 
 export function locale(lang: string = ''): Locale {
     if (lang === 'ru') {
         return localeRU;
     } else {
-        return localeDefault;
+        return localeRU;
     }
 }
