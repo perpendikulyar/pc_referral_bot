@@ -28,6 +28,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ env.CR_URI }}/{{ env.CR_REP }}:${{ github.sha }}
+          tags: ${{ env.CR_URI }}/${{ env.CR_REP }}:${{ github.sha }}
           file: ./Dockerfile
           context: ./
