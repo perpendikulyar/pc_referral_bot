@@ -17,7 +17,7 @@ export class LoggerEvent extends DTO {
 
     constructor() {
         super();
-        this.dateTime = new Date().toLocaleString('ru-RU', {timeZone: 'UTC'});
+        this.dateTime = new Date().toLocaleString('ru-RU', { timeZone: 'UTC' });
     }
 
     static createAndSave(

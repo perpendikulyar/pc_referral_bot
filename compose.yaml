@@ -1,7 +1,7 @@
 services:
-  bot:
-    build: 
-      context: .
-    container_name: testbot
-    ports:
-      - "80:80"
+    bot:
+        build:
+            context: .
+        container_name: testbot
+        ports:
+            - '80:80'

@@ -9,7 +9,8 @@
         "typescript": "^5.5.3"
     },
     "scripts": {
-        "build": "tsc -p .",
+        "pretify": "npx prettier . --write",
+        "build": "npm run pretify && tsc -p .",
         "start:n": "node dist/bot.js",
         "start:w": "",
         "start": "npm run build && node dist/bot.js",

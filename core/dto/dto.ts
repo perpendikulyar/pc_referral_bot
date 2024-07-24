@@ -17,7 +17,7 @@ export abstract class DTO {
         let props: string[] = [];
 
         this.savedProps.forEach((e) => {
-            props.push(Object.getOwnPropertyDescriptor(this, e)?.value || "");
+            props.push(Object.getOwnPropertyDescriptor(this, e)?.value || '');
         });
 
         return props;

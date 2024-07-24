@@ -1,7 +1,14 @@
-import { Bot } from 'grammy';
+import { Bot, CommandContext } from 'grammy';
 
 import getConfig from './core/config';
-import { generate, help, onMessage, start } from './core/commands';
+import {
+    generate,
+    help,
+    onMessage,
+    start,
+    onGeneratorMore,
+    onGetLink,
+} from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
 
@@ -17,6 +24,10 @@ bot.command(ROUTES.generate, async (ctx) => generate(ctx));
 
 bot.command(ROUTES.help, async (ctx) => help(ctx));
 
-bot.on('message', (ctx) => onMessage(ctx));
+bot.on('message', async (ctx) => onMessage(ctx));
+
+bot.callbackQuery('generatorMoreData', async (ctx) => onGeneratorMore(ctx));
+
+bot.callbackQuery('getLink', async (ctx) => onGetLink(ctx));
 
 bot.start({ onStart: () => console.log('Bot running...') });
