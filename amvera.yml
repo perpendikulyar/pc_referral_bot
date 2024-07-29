@@ -1,11 +1,10 @@
 meta:
-  environment: docker
+  environment: node
   toolchain:
-    name: docker
-    version: latest
+    name: npm
+    version: 18
 build:
-  dockerfile: /Dockerfile
-  skip: false
+  additionalCommanda: npm run build
 run:
-  persistenceMount: /data
+  command: npm run start:n
   containerPort: 8080
