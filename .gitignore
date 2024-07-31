@@ -1,0 +1,13 @@
+#modules
+.node_modules/
+node_modules
+
+#app
+*.env
+/dist
+.jwt.keys.json
+/logs
+
+#dev
+.idea
+.DS_Store
