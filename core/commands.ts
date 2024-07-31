@@ -29,7 +29,7 @@ export async function generate(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
     const lang = user?.language_code;
-    const url = getUrl(name);
+    const url = await getUrl(name);
     UserLink.createAndSave(name, url);
     LoggerEvent.createAndSave(name, 'generate');
     await ctx.reply(`${url}`, {
