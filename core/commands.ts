@@ -1,4 +1,4 @@
-import { CommandContext, Context, InlineKeyboard } from 'grammy';
+import { CommandContext, Context, InlineKeyboard, InputFile } from 'grammy';
 
 import getConfig from '../core/config';
 import getUrl from './link';
@@ -6,6 +6,7 @@ import { UserLink } from './dto/userlink.dto';
 import { LoggerEvent } from './dto/logger_event.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
+import { generateQR } from './qr.service';
 
 const config = getConfig();
 
@@ -115,4 +116,22 @@ export async function onMessage(ctx: Context) {
             );
             await ctx.reply(locale(lang).unknown);
     }
+}
+
+export async function getQR(ctx: Context) {
+    const user = ctx.from;
+    const name = user?.username || 'guest';
+    const link = getUrl(name);
+
+   
+    const qrcode = await generateQR(link);
+
+    const buffer = Buffer.from(qrcode, 'base64url');
+    console.log(buffer);
+
+    const file = new InputFile(buffer);
+
+    // console.log(`file ${file}`);
+
+    await ctx.replyWithPhoto(file);
 }

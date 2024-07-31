@@ -9,6 +9,7 @@ import {
     onGeneratorMore,
     onGetLink,
     onGetInvite,
+    getQR,
 } from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
@@ -27,6 +28,8 @@ bot.command(ROUTES.start, async (ctx) => start(ctx));
 bot.command(ROUTES.generate, async (ctx) => generate(ctx));
 
 bot.command(ROUTES.help, async (ctx) => help(ctx));
+
+bot.command(ROUTES.getQR, async (ctx) => getQR(ctx));
 
 bot.on('message', async (ctx) => onMessage(ctx));
 
