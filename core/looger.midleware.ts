@@ -1,6 +1,9 @@
-import { Context, NextFunction } from "grammy";
+import { Context, NextFunction } from 'grammy';
 
-export async function loggerMiddleware (ctx: Context, next: NextFunction): Promise<void> {
+export async function loggerMiddleware(
+    ctx: Context,
+    next: NextFunction
+): Promise<void> {
     const before = Date.now();
     await next();
     const after = Date.now();

@@ -30,7 +30,7 @@ const localeRU: Locale = {
 🫶 А еще мы сделали генератор инвайтов — воспользуйся им, и получишь прикольный текст приглашения 💅`,
     generatorMoreBtn: '🤔 Как мне привести много реферралов?',
     moreAboutLabel: `Подробнее о программе`,
-    moreAboutUrl: `https://productcamp.ru`,
+    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2024-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
     getLink: '🎯 Получить новую ссылку',
     helpText: `Этот бот помогает создать специальную ссылку для участия в реферальной программе ProductCamp 2024.\n
 Выполни команду /generate, чтобы получить ссылку, и отправь ее всем своим заинтересованным друзьям!`,
@@ -56,7 +56,7 @@ const localeDefault: Locale = {
 🫶 Also we've made an invite generator - use it and you’ll get a cool invitation text 💅`,
     generatorMoreBtn: '🤔 How to get more referrals?',
     moreAboutLabel: `Learn more about programm`,
-    moreAboutUrl: `https://productcamp.ru`,
+    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2024-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
     getLink: '🎯 Get a new referral link',
     helpText: `This bot helps you create a special link to participate in the ProductCamp 2024 referral program.\n
 Run /generate command to get the link and send it to all your interested friends!`,
