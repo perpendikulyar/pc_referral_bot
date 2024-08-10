@@ -57,7 +57,11 @@ export async function help(ctx: CommandContext<Context>) {
         .text(locale(lang).generatorMoreBtn, 'generatorMoreData')
         .row()
         .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
-    await ctx.reply(locale(lang).helpText, { reply_markup: inlineKeyborad });
+    await ctx.reply(locale(lang).helpText, {
+        reply_markup: inlineKeyborad,
+        parse_mode: 'Markdown',
+        link_preview_options: { is_disabled: true },
+    });
 }
 
 /** callbacks buttons */
@@ -70,6 +74,7 @@ export async function onGeneratorMore(ctx: Context) {
     await ctx.reply(locale(lang).generatorExplainMore, {
         parse_mode: 'Markdown',
         reply_markup: inlineKeyborad,
+        link_preview_options: { is_disabled: true },
     });
     LoggerEvent.createAndSave(name, 'generatorMore');
 }
@@ -83,16 +88,14 @@ export async function onGetInvite(ctx: Context) {
     const name = user?.username || 'guest';
     const lang = user?.language_code;
     const inviteText = await sheetService.getInvite();
+    const link = await getUrl(name);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad.text(locale(lang).getAnotherInvite, 'getInvite');
     LoggerEvent.createAndSave(name, 'getInvite');
-    await ctx.reply(
-        inviteText + '\n' + locale(lang).register + '\n\n' + getUrl(name),
-        {
-            link_preview_options: { is_disabled: true },
-            reply_markup: inlineKeyborad,
-        }
-    );
+    await ctx.reply(inviteText + '\n' + locale(lang).register + '\n\n' + link, {
+        link_preview_options: { is_disabled: true },
+        reply_markup: inlineKeyborad,
+    });
 }
 
 /** messages recived */
