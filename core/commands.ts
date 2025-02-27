@@ -70,7 +70,10 @@ export async function onGeneratorMore(ctx: Context) {
     const name = user?.username || 'guest';
     const lang = user?.language_code;
     const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad.text(locale(lang).getInvite, 'getInvite').row().url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
+    inlineKeyborad
+        .text(locale(lang).getInvite, 'getInvite')
+        .row()
+        .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
     await ctx.reply(locale(lang).generatorExplainMore, {
         parse_mode: 'Markdown',
         reply_markup: inlineKeyborad,
