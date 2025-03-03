@@ -18,7 +18,7 @@ interface Locale {
 
 const localeRU: Locale = {
     welcome: `Привет! \n 
-С помощью этого бота ты можешь создать специальную ссылку для участия в реферальной программе ProductCamp 2024! \n
+С помощью этого бота ты можешь создать специальную ссылку для участия в реферальной программе весеннего ProductCamp 2025! \n
 Набрав достаточное количество реферралов, ты можешь получить плюшки от организаторов и даже проходку на сам Кэмп`,
     welcomeMore: `За подробностями переходи по ссылке 👇\n`,
     generatorExplain: `Это твоя персональная ссылка\n
@@ -34,9 +34,9 @@ const localeRU: Locale = {
 🫶 А еще мы сделали генератор инвайтов — воспользуйся им, и получишь прикольный текст приглашения 💅`,
     generatorMoreBtn: '🤔 Как мне привести много реферралов?',
     moreAboutLabel: `Подробнее о программе`,
-    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2024-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
+    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2025-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
     getLink: '🎯 Получить новую ссылку',
-    helpText: `Этот бот помогает создать специальную ссылку для участия в реферальной программе ProductCamp 2024.\n
+    helpText: `Этот бот помогает создать специальную ссылку для участия в реферальной программе весеннего ProductCamp 2025.\n
 Выполни команду /generate, чтобы получить ссылку, и отправь ее всем своим заинтересованным друзьям!\n
 А если ты столкнешься с проблемами, багами или у тебя будут предолжения по работе бота, то обязательно пиши нам сюда 👇\n
 [Связаться с нами](https://forms.gle/tRqzyqUbUktuavep6)\n
@@ -57,7 +57,7 @@ const localeDefault: Locale = {
     If you get enough referrals, you could get some rewards or take part in offline Camp events!`,
     welcomeMore: `Find more about Referral Program by link bellow 👇\n`,
     generatorExplain: `This is your personal link\n
-    invite your colleagues and friends to ProductCamp 2024🙏`,
+    invite your colleagues and friends to ProductCamp 2025🙏`,
     generatorExplainMore: `😎 Here's some awesome tips and hints to don't screw up and get success:\n
 🤓 Share the link with colleagues and friends from the industry - it will be more fun with your company at the camp!\n\n
 👩‍🎤 You probably have chats of PM, Marketing Manager, Designers and other profesionals from digital industry - post the link there, they will definitely be interested\n\n
@@ -65,9 +65,9 @@ const localeDefault: Locale = {
 🫶 Also we've made an invite generator - use it and you’ll get a cool invitation text 💅`,
     generatorMoreBtn: '🤔 How to get more referrals?',
     moreAboutLabel: `Learn more about programm`,
-    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2024-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
+    moreAboutUrl: `https://mint-need-e65.notion.site/ProductCamp-2025-022a78a051b64c65b6fa4ccf571c1e59?utm_medium=bot&utm_source=pc_referral_bot`,
     getLink: '🎯 Get a new referral link',
-    helpText: `This bot helps you create a special link to participate in the ProductCamp 2024 referral program.\n
+    helpText: `This bot helps you create a special link to participate in the ProductCamp Spring 2025 referral program.\n
 Run /generate command to get the link and send it to all your interested friends!`,
     unknown: `This bot is not provided unusual text commands, but you can use /generate command to get your own Refferal Link or use Menu tos see full list`,
     cmdGenerate: `Get new link`,
