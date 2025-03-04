@@ -13,13 +13,14 @@
         "build": "tsc -p .",
         "start": "npm run build && node dist/bot.js",
         "start:prod": "pm2 start ecosystem.config.js",
-        "start:w": "",
+        "start:debug": "node dist/bot.js",
         "restart": "pm2 restart all",
         "restart:build": "npm run build && npm run restart",
         "stop": "pm2 stop all",
         "clean": "rm -rf dist"
     },
     "dependencies": {
+        "axios": "^1.8.1",
         "dotenv": "^16.4.5",
         "firebase": "^10.12.4",
         "google-auth-library": "^9.11.0",

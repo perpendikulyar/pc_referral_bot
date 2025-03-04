@@ -6,10 +6,12 @@ import { UserLink } from './dto/userlink.dto';
 import { LoggerEvent } from './dto/logger_event.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
+import { AnalyticsService } from './google_api/analytics.service';
 
 const config = getConfig();
 
 const sheetService = new SheetService();
+const analytics = new AnalyticsService();
 
 export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
@@ -32,6 +34,19 @@ export async function generate(ctx: CommandContext<Context>) {
     const url = await getUrl(name);
     UserLink.createAndSave(name, url);
     LoggerEvent.createAndSave(name, 'generate');
+    await analytics.sendEvent({
+        client_id: name,
+        events: [
+            {
+                name: 'generate',
+                params: {
+                    engagement_time_msec: '100',
+                    session_id: ctx.chat.id.toString(),
+                    message: 'generate link',
+                },
+            },
+        ],
+    });
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
         reply_markup: { remove_keyboard: true },

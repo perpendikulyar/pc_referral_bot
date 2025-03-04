@@ -7,6 +7,7 @@ interface IConfig {
     sheetId: string;
     firebaseConfig: FirebaseOptions;
     googleapiConfig: JWTInput;
+    analytics: { m_id: string, secret: string }
 }
 
 dotenv.config();
@@ -17,6 +18,7 @@ export default function getConfig(): IConfig {
         sheetId: process.env.G_SHEET_ID || '',
         firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG || ''),
         googleapiConfig: JSON.parse(process.env.G_API_CONFIG || ''),
+        analytics: JSON.parse(process.env.GA_CONFIG || ''),
     };
 
     if (!config.tgToken) {
