@@ -110,7 +110,7 @@ export async function onGenerateQr(ctx: Context) {
     const lang = user?.language_code;
     const link = await getUrl(name);
     await generateQR(ctx, link);
-    LoggerEvent.createAndSave(name, 'getInvite');
+    LoggerEvent.createAndSave(name, 'generateQr');
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
         .text(locale(lang).generatorMoreBtn, 'generatorMoreData')
