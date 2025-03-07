@@ -1,17 +1,13 @@
 import { CommandContext, Context, InlineKeyboard } from 'grammy';
 
-import getConfig from '../core/config';
 import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
 import { LoggerEvent } from './dto/logger_event.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
-import { AnalyticsService } from './google_api/analytics.service';
-
-const config = getConfig();
+import generateQR from './qr-generator';
 
 const sheetService = new SheetService();
-const analytics = new AnalyticsService();
 
 export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
@@ -42,6 +38,10 @@ export async function generate(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
         .text(locale(lang).generatorMoreBtn, 'generatorMoreData')
+        .row()
+        .text(locale(lang).getInvite, 'getInvite')
+        .row()
+        .text(locale(lang).getQr, 'generateQr')
         .row()
         .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
     await ctx.reply(locale(lang).generatorExplain, {
@@ -100,6 +100,25 @@ export async function onGetInvite(ctx: Context) {
     LoggerEvent.createAndSave(name, 'getInvite');
     await ctx.reply(inviteText + '\n' + locale(lang).register + '\n\n' + link, {
         link_preview_options: { is_disabled: true },
+        reply_markup: inlineKeyborad,
+    });
+}
+
+export async function onGenerateQr(ctx: Context) {
+    const user = ctx.from;
+    const name = user?.username || 'guest';
+    const lang = user?.language_code;
+    const link = await getUrl(name);
+    await generateQR(ctx, link);
+    LoggerEvent.createAndSave(name, 'getInvite');
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad
+        .text(locale(lang).generatorMoreBtn, 'generatorMoreData')
+        .row()
+        .text(locale(lang).getInvite, 'getInvite')
+        .row()
+        .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
+    await ctx.reply(locale(lang).qrReady, {
         reply_markup: inlineKeyborad,
     });
 }

@@ -14,6 +14,8 @@ interface Locale {
     getInvite: string;
     getAnotherInvite: string;
     register: string;
+    getQr: string;
+    qrReady: string;
 }
 
 const localeRU: Locale = {
@@ -49,6 +51,8 @@ const localeRU: Locale = {
     getInvite: 'Сгенерировать приглашение',
     getAnotherInvite: 'Еще одно',
     register: 'Регистрируйся по моей ссылке 👇',
+    getQr: 'Сгенерить QR-код',
+    qrReady: 'Твой QR-код готов!'
 };
 
 const localeDefault: Locale = {
@@ -75,6 +79,8 @@ Run /generate command to get the link and send it to all your interested friends
     getInvite: 'Generate invite message',
     getAnotherInvite: 'One more',
     register: 'Register with link below 👇',
+    getQr: 'Generate QR code',
+    qrReady: 'Your QR code is ready!'
 };
 
 export function locale(lang: string = ''): Locale {
