@@ -8,9 +8,6 @@ async function minify(url: string) {
     const res = await fetch(`${endpoint}?url=${url}`);
     return res.text();
 }
-/*
- *  TODO: add link minifier
- */
 
 export default async function getUrl(ref: String) {
     const url = `${baseUrl}?utm_medium=${utmMedium}&utm_source=${ref}&utm_campaign=${utmCampaign}`;
