@@ -16,6 +16,7 @@ interface IAnalyticsData {
                 session_id?: string;
                 message?: string;
                 source?: string;
+                username?:string
             };
         },
     ];
@@ -41,6 +42,7 @@ export class AnalyticsService {
                         session_id: ctx.chat?.id.toString() || '',
                         message: ctx.message?.text || '',
                         source: ctx.source,
+                        username: ctx.from?.username || 'guest',
                     },
                 },
             ],
