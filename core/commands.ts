@@ -6,16 +6,19 @@ import { UserLink } from './dto/userlink.dto';
 import { LoggerEvent } from './dto/logger_event.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
+import { AnalyticsService } from './google_api/analytics.service';
 
 const config = getConfig();
 
 const sheetService = new SheetService();
+const analytics = new AnalyticsService();
 
 export async function start(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
     const lang = user?.language_code;
     LoggerEvent.createAndSave(name, 'start');
+    //analytics.sendEvent(ctx, 'start');
     await ctx.reply(locale(lang).welcome);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad

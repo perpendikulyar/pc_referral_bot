@@ -8,5 +8,7 @@ export async function loggerMiddleware(
     await next();
     const after = Date.now();
 
-    console.log(`Alive: response time ${after - before}ms`);
+    console.log(
+        `Alive on command "${ctx.command}": response time ${after - before}ms`
+    );
 }
