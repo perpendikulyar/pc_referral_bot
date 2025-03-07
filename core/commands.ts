@@ -18,6 +18,7 @@ export async function start(ctx: CommandContext<Context>) {
     const name = user?.username || 'guest';
     const lang = user?.language_code;
     LoggerEvent.createAndSave(name, 'start');
+    //analytics.sendEvent(ctx, 'start');
     await ctx.reply(locale(lang).welcome);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
@@ -34,19 +35,6 @@ export async function generate(ctx: CommandContext<Context>) {
     const url = await getUrl(name);
     UserLink.createAndSave(name, url);
     LoggerEvent.createAndSave(name, 'generate');
-    await analytics.sendEvent({
-        client_id: name,
-        events: [
-            {
-                name: 'generate',
-                params: {
-                    engagement_time_msec: '100',
-                    session_id: ctx.chat.id.toString(),
-                    message: 'generate link',
-                },
-            },
-        ],
-    });
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
         reply_markup: { remove_keyboard: true },

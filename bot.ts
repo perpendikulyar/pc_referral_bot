@@ -12,15 +12,17 @@ import {
 } from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
-import { loggerMiddleware } from './core/looger.midleware';
+import { loggerMiddleware } from './core/middlewares/looger.midleware';
+import { contextExtenderMiddleware } from './core/middlewares/context-extender.middleware';
+import { gaMidleware } from './core/middlewares/ga.midleware';
 
 const config = getConfig();
 
 const bot: Bot = new Bot(config.tgToken);
 
-bot.api.setMyCommands(routes);
+bot.use(loggerMiddleware, contextExtenderMiddleware, gaMidleware);
 
-bot.use(loggerMiddleware);
+bot.api.setMyCommands(routes);
 
 bot.command(ROUTES.start, async (ctx) => start(ctx));
 

@@ -7,7 +7,7 @@ interface IConfig {
     sheetId: string;
     firebaseConfig: FirebaseOptions;
     googleapiConfig: JWTInput;
-    analytics: { m_id: string, secret: string }
+    analytics: { m_id: string; secret: string };
 }
 
 dotenv.config();
