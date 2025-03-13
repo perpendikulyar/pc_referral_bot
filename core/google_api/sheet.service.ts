@@ -1,6 +1,7 @@
 import {
     GoogleSpreadsheet,
-    GoogleSpreadsheetWorksheet,
+    GoogleSpreadsheetWorksheet, 
+    GoogleSpreadsheetRow
 } from 'google-spreadsheet';
 
 import { AuthService } from './auth.service';
@@ -23,6 +24,11 @@ export class SheetService {
 
     async save<T extends DTO>(rec: T) {
         const sheet = await this.getSheet(rec.tableName);
+        if (!sheet) {
+            console.error(`SheetService: list with name ${rec.tableName} not found`);
+            return;
+        }
+
         const values = rec.getProps();
 
         try {
@@ -33,8 +39,47 @@ export class SheetService {
         }
     }
 
+    async getRawByValue(sheetName: string, columnName: string, searchValue: string) {
+        const sheet = await this.getSheet(sheetName);
+        if (!sheet) {
+            console.error(`SheetService: list with name ${sheetName} not found`);
+            return;
+        }
+
+        await sheet.loadCells();
+        const rows = await sheet.getRows();
+        try {
+            return rows.find(row => row.get(columnName) === searchValue);
+        } catch (error) {
+            console.error('Failed on load data form Google Sheets:', error);
+        }
+    }
+
+    async getChatIds() {
+        const sheet = await this.getSheet('logs');
+        if (!sheet) {
+            console.error(`SheetService: list with name 'logs' not found`);
+            return;
+        }
+
+        const rows = await sheet.getRows();
+
+        const values = rows.map(row => row.get('chat_id'));
+        const uniqueValues = [...new Set(values)].filter(Number);
+
+        return uniqueValues;
+    }
+
     async getInvite() {
         const sheet = await this.getSheet('invites');
+        if (!sheet) {
+            console.error(`SheetService: list with name 'invites' not found`);
+            return;
+        } else {
+            return sheet;
+        }
+
+
         const rows = await sheet.getRows({ limit: 25 });
 
         let p1: string[] = [];

@@ -10,6 +10,7 @@ import {
     onGetLink,
     onGetInvite,
     onGenerateQr,
+    brodcast,
 } from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
@@ -30,6 +31,8 @@ bot.command(ROUTES.start, async (ctx) => start(ctx));
 bot.command(ROUTES.generate, async (ctx) => generate(ctx));
 
 bot.command(ROUTES.help, async (ctx) => help(ctx));
+
+bot.command(ROUTES.brodcast, async (ctx) => brodcast(ctx, bot));
 
 bot.on('message', async (ctx) => onMessage(ctx));
 

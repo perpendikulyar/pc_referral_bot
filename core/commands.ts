@@ -1,20 +1,29 @@
-import { CommandContext, Context, InlineKeyboard } from 'grammy';
+import { Bot, CommandContext, Context, InlineKeyboard } from 'grammy';
 
 import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
 import generateQR from './qr-generator';
+import { BrodcastService } from './brodcast.service';
 
 const sheetService = new SheetService();
+const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
-    await ctx.reply(locale(ctx.lang).welcome);
+    if (ctx.source === 'apply_digest') {
+        await ctx.reply("Теперь ты будешь получать еженедельный дайджест");
+    } else {
+        await ctx.reply(locale(ctx.lang).welcome);
+    }
+
     const inlineKeyborad = new InlineKeyboard();
+
     inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
-        .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+    .text(locale(ctx.lang).getLink, 'getLink')
+    .row()
+    .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+
     await ctx.reply(locale(ctx.lang).welcomeMore, {
         reply_markup: inlineKeyborad,
     });
@@ -57,6 +66,17 @@ export async function help(ctx: CommandContext<Context>) {
         link_preview_options: { is_disabled: true },
     });
 }
+
+export async function brodcast(ctx: Context, bot: Bot) {
+    const result = await brodcastService.brodcastMessage(bot, 'Hello world');
+    if (!result) {
+        console.log(`Brodcast failed`);
+        return;
+    }
+
+    await ctx.reply(`Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`);
+}
+
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {

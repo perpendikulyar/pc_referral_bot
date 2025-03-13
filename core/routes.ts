@@ -9,4 +9,5 @@ interface IBotCommand extends BotCommand {
 export const routes: IBotCommand[] = [
     { command: ROUTES.generate, description: locale('en').cmdGenerate },
     { command: ROUTES.help, description: locale('en').cmdHelp },
+    { command: ROUTES.brodcast, description: 'Admin: Startbrodcast'}
 ];
