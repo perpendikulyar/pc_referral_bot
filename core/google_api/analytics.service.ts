@@ -16,7 +16,7 @@ interface IAnalyticsData {
                 session_id?: string;
                 message?: string;
                 source?: string;
-                username?:string
+                username?: string;
             };
         },
     ];
@@ -52,7 +52,7 @@ export class AnalyticsService {
             const response = await axios.post(this.url, JSON.stringify(data));
 
             if (response.status !== 200) {
-                console.log('Processing by Google Analytics failed.');
+                //console.log('Processing by Google Analytics failed.');
             }
         } catch (e: any) {
             console.error('Error sending event to Google Analytics: ', e);

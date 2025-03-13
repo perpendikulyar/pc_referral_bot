@@ -5,5 +5,6 @@ declare module 'grammy' {
     interface Context {
         command?: string;
         source?: string;
+        lang?: string;
     }
 }
