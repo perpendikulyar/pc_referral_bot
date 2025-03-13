@@ -10,15 +10,16 @@ export default async function generateQR(ctx: Context, link: string) {
             scale: 8,
             color: {
                 dark: '#333333',
-                light: '#E2E5EC'
-            }
+                light: '#E2E5EC',
+            },
         });
 
-        await ctx.replyWithPhoto(new InputFile(new Uint8Array(data), 'qr-code.png')), {
-            caption: 'Твой QR-код готов!'
-        }
-
-
+        await ctx.replyWithPhoto(
+            new InputFile(new Uint8Array(data), 'qr-code.png')
+        ),
+            {
+                caption: 'Твой QR-код готов!',
+            };
     } catch (error) {
         console.error('Error on QR code generation:', error);
         ctx.reply('Не удалось сгенерировать QR-код');

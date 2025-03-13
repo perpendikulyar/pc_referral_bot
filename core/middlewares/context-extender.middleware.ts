@@ -17,5 +17,7 @@ export async function contextExtenderMiddleware(
         ctx.command = 'message';
     }
 
+    ctx.lang = ctx.from?.language_code || 'ru';
+
     await next();
 }

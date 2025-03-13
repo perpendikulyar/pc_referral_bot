@@ -21,7 +21,7 @@ const config = getConfig();
 
 const bot: Bot = new Bot(config.tgToken);
 
-bot.use(loggerMiddleware, contextExtenderMiddleware, gaMidleware);
+bot.use(contextExtenderMiddleware, loggerMiddleware, gaMidleware);
 
 bot.api.setMyCommands(routes);
 
