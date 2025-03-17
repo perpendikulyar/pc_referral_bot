@@ -10,6 +10,7 @@ import {
     onGetLink,
     onGetInvite,
     onGenerateQr,
+    onGetStoriesTemplates,
 } from './core/commands';
 import { routes } from './core/routes';
 import { ROUTES } from './core/routes.enum';
@@ -40,6 +41,8 @@ bot.callbackQuery('getLink', async (ctx) => onGetLink(ctx));
 bot.callbackQuery('getInvite', async (ctx) => onGetInvite(ctx));
 
 bot.callbackQuery('generateQr', async (ctx) => onGenerateQr(ctx));
+
+bot.callbackQuery('getStories', async (ctx) => onGetStoriesTemplates(ctx));
 
 bot.catch((e) => {
     const ctx = e.ctx;
