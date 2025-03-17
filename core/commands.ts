@@ -5,8 +5,12 @@ import { UserLink } from './dto/userlink.dto';
 import { locale } from './localisations';
 import { SheetService } from './google_api/sheet.service';
 import generateQR from './qr-generator';
+import { AssetsService } from './assets.service';
+import { CommandsService } from './commands.service';
 
 const sheetService = new SheetService();
+const assetsService = new AssetsService();
+const commandsService = new CommandsService();
 
 export async function start(ctx: CommandContext<Context>) {
     await ctx.reply(locale(ctx.lang).welcome);
@@ -33,14 +37,12 @@ export async function generate(ctx: CommandContext<Context>) {
     inlineKeyborad
         .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .text(locale(ctx.lang).getInvite, 'getInvite')
-        .row()
-        .text(locale(ctx.lang).getQr, 'generateQr')
-        .row()
         .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
     await ctx.reply(locale(ctx.lang).generatorExplain, {
         reply_markup: inlineKeyborad,
     });
+
+    await commandsService.generateKeyboard(ctx);
 }
 
 export async function help(ctx: CommandContext<Context>) {
@@ -60,16 +62,13 @@ export async function help(ctx: CommandContext<Context>) {
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
-        .text(locale(ctx.lang).getInvite, 'getInvite')
-        .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
     await ctx.reply(locale(ctx.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
-        reply_markup: inlineKeyborad,
+        reply_markup: new InlineKeyboard().url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl),
         link_preview_options: { is_disabled: true },
     });
+
+    await commandsService.generateKeyboard(ctx);
 }
 
 export async function onGetLink(ctx: Context) {
@@ -101,11 +100,26 @@ export async function onGenerateQr(ctx: Context) {
     inlineKeyborad
         .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .text(locale(ctx.lang).getInvite, 'getInvite')
-        .row()
         .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
 
     await ctx.reply(locale(ctx.lang).qrReady, {
+        reply_markup: inlineKeyborad,
+    });
+}
+
+export async function onGetStoriesTemplates (ctx: Context) {
+    await ctx.replyWithMediaGroup([
+        {type: 'photo', media: await assetsService.getImage('story.png')},
+        {type: 'photo', media: await assetsService.getImage('square-post.png')}
+    ]);
+
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad
+        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .row()
+        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+
+    await ctx.reply(locale(ctx.lang).storiesHelp, {
         reply_markup: inlineKeyborad,
     });
 }
