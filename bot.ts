@@ -10,6 +10,7 @@ import {
     onGetLink,
     onGetInvite,
     onGenerateQr,
+    onGetStoriesTemplates,
     brodcast,
 } from './core/commands';
 import { routes } from './core/routes';
@@ -43,6 +44,8 @@ bot.callbackQuery('getLink', async (ctx) => onGetLink(ctx));
 bot.callbackQuery('getInvite', async (ctx) => onGetInvite(ctx));
 
 bot.callbackQuery('generateQr', async (ctx) => onGenerateQr(ctx));
+
+bot.callbackQuery('getStories', async (ctx) => onGetStoriesTemplates(ctx));
 
 bot.catch((e) => {
     const ctx = e.ctx;
