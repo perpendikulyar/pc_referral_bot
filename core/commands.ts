@@ -13,15 +13,27 @@ const assetsService = new AssetsService();
 const commandsService = new CommandsService();
 
 export async function start(ctx: CommandContext<Context>) {
-    await ctx.reply(locale(ctx.lang).welcome);
     const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
+
+    if (ctx.source === 'orgchat_poll') {
+        inlineKeyborad
+        .text(locale(ctx.lang).getLink, 'getLink')
+        .row()
+        .url(locale(ctx.lang).orgPollLabel, locale(ctx.lang).orgPollLink);
+    await ctx.reply(locale(ctx.lang).orgPoll, {
+        reply_markup: inlineKeyborad,
+    });
+    } else {
+        await ctx.reply(locale(ctx.lang).welcome);
+        inlineKeyborad
         .text(locale(ctx.lang).getLink, 'getLink')
         .row()
         .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
     await ctx.reply(locale(ctx.lang).welcomeMore, {
         reply_markup: inlineKeyborad,
     });
+    }
+
 }
 
 export async function generate(ctx: CommandContext<Context>) {
