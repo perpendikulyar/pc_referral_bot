@@ -19,5 +19,9 @@ export async function contextExtenderMiddleware(
 
     ctx.lang = ctx.from?.language_code || 'ru';
 
+    if (ctx.from?.username && ctx.from.username in []) {
+        ctx.isAdmin = true;
+    }
+
     await next();
 }

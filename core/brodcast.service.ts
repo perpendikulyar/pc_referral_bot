@@ -1,14 +1,16 @@
-import { Bot } from "grammy";
-import { SheetService } from "./google_api/sheet.service";
+import { Bot } from 'grammy';
+import { SheetService } from './google_api/sheet.service';
 
 export class BrodcastService {
     readonly sheetService: SheetService;
+    private _bot: Bot;
 
-    constructor() {
+    constructor(bot: Bot) {
+        this._bot = bot;
         this.sheetService = new SheetService();
     }
 
-    async brodcastMessage(bot: Bot, text: string) {
+    async brodcastMessage(text: string) {
         console.log(`brodcast starting`);
 
         let success = 0;
@@ -21,21 +23,23 @@ export class BrodcastService {
 
         for (const chatId of chatIds) {
             try {
-
                 console.log(`${chatId}: will recive this message: ${text}`);
 
                 if (chatId == 257180579) {
-                    await bot.api.sendMessage(chatId, text);
+                    await this._bot.api.sendMessage(chatId, text);
                     success++;
                 } else {
                     errors++;
                 }
             } catch (e) {
-                console.error(`Can't send message to user with chat id: ${chatId}`, e);
+                console.error(
+                    `Can't send message to user with chat id: ${chatId}`,
+                    e
+                );
                 errors++;
             }
         }
 
-        return {success, errors};
+        return { success, errors };
     }
 }

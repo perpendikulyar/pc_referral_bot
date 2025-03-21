@@ -1,7 +1,7 @@
 import {
     GoogleSpreadsheet,
-    GoogleSpreadsheetWorksheet, 
-    GoogleSpreadsheetRow
+    GoogleSpreadsheetWorksheet,
+    GoogleSpreadsheetRow,
 } from 'google-spreadsheet';
 
 import { AuthService } from './auth.service';
@@ -25,7 +25,9 @@ export class SheetService {
     async save<T extends DTO>(rec: T) {
         const sheet = await this.getSheet(rec.tableName);
         if (!sheet) {
-            console.error(`SheetService: list with name ${rec.tableName} not found`);
+            console.error(
+                `SheetService: list with name ${rec.tableName} not found`
+            );
             return;
         }
 
@@ -39,17 +41,23 @@ export class SheetService {
         }
     }
 
-    async getRawByValue(sheetName: string, columnName: string, searchValue: string) {
+    async getRawByValue(
+        sheetName: string,
+        columnName: string,
+        searchValue: string
+    ) {
         const sheet = await this.getSheet(sheetName);
         if (!sheet) {
-            console.error(`SheetService: list with name ${sheetName} not found`);
+            console.error(
+                `SheetService: list with name ${sheetName} not found`
+            );
             return;
         }
 
         await sheet.loadCells();
         const rows = await sheet.getRows();
         try {
-            return rows.find(row => row.get(columnName) === searchValue);
+            return rows.find((row) => row.get(columnName) === searchValue);
         } catch (error) {
             console.error('Failed on load data form Google Sheets:', error);
         }
@@ -64,7 +72,7 @@ export class SheetService {
 
         const rows = await sheet.getRows();
 
-        const values = rows.map(row => row.get('chat_id'));
+        const values = rows.map((row) => row.get('chat_id'));
         const uniqueValues = [...new Set(values)].filter(Number);
 
         return uniqueValues;
@@ -78,7 +86,6 @@ export class SheetService {
         } else {
             return sheet;
         }
-
 
         const rows = await sheet.getRows({ limit: 25 });
 

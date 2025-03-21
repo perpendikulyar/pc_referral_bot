@@ -1,4 +1,4 @@
-import { Bot, CommandContext, Context, InlineKeyboard } from 'grammy';
+import {CommandContext, Context, InlineKeyboard } from 'grammy';
 
 import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
@@ -16,7 +16,7 @@ const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
     if (ctx.source === 'apply_digest') {
-        await ctx.reply("Теперь ты будешь получать еженедельный дайджест");
+        await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
     } else {
         await ctx.reply(locale(ctx.lang).welcome);
     }
@@ -24,9 +24,9 @@ export async function start(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
 
     inlineKeyborad
-    .text(locale(ctx.lang).getLink, 'getLink')
-    .row()
-    .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .text(locale(ctx.lang).getLink, 'getLink')
+        .row()
+        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
 
     await ctx.reply(locale(ctx.lang).welcomeMore, {
         reply_markup: inlineKeyborad,
@@ -69,22 +69,26 @@ export async function help(ctx: CommandContext<Context>) {
     });
 }
 
-export async function brodcast(ctx: Context, bot: Bot) {
-    const result = await brodcastService.brodcastMessage(bot, 'Hello world');
+export async function brodcast(ctx: Context) {
+    const result = await brodcastService.brodcastMessage('Hello world');
     if (!result) {
         console.log(`Brodcast failed`);
         return;
     }
 
-    await ctx.reply(`Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`);
+    await ctx.reply(
+        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`
+    );
 }
-
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
     await ctx.reply(locale(ctx.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard().url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl),
+        reply_markup: new InlineKeyboard().url(
+            locale(ctx.lang).moreAboutLabel,
+            locale(ctx.lang).moreAboutUrl
+        ),
         link_preview_options: { is_disabled: true },
     });
 
@@ -127,10 +131,13 @@ export async function onGenerateQr(ctx: Context) {
     });
 }
 
-export async function onGetStoriesTemplates (ctx: Context) {
+export async function onGetStoriesTemplates(ctx: Context) {
     await ctx.replyWithMediaGroup([
-        {type: 'photo', media: await assetsService.getImage('story.png')},
-        {type: 'photo', media: await assetsService.getImage('square-post.png')}
+        { type: 'photo', media: await assetsService.getImage('story.png') },
+        {
+            type: 'photo',
+            media: await assetsService.getImage('square-post.png'),
+        },
     ]);
 
     const inlineKeyborad = new InlineKeyboard();
