@@ -12,6 +12,6 @@ export async function loggerMiddleware(
     const after = Date.now();
 
     console.log(
-        `Alive on command "/${ctx.command}/${ctx.source || ''}" by ${ctx.from?.username}/${ctx.lang}: response time ${after - before}ms`
+        `Alive on command "/${ctx.command}/${ctx.source || ''}" by ${ctx.from?.username}/${ctx.user.isAdmin ? 'Admin' : 'User'}: response time ${after - before}ms`
     );
 }

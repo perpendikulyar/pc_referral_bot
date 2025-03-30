@@ -1,4 +1,4 @@
-import {CommandContext, Context, InlineKeyboard } from 'grammy';
+import { CommandContext, Context, InlineKeyboard } from 'grammy';
 
 import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
@@ -11,24 +11,26 @@ import { BrodcastService } from './brodcast.service';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
-const commandsService = new CommandsService();
 const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
     if (ctx.source === 'apply_digest') {
         await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
     } else {
-        await ctx.reply(locale(ctx.lang).welcome);
+        await ctx.reply(locale(ctx.user.lang).welcome);
     }
 
     const inlineKeyborad = new InlineKeyboard();
 
     inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
+        .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
-    await ctx.reply(locale(ctx.lang).welcomeMore, {
+    await ctx.reply(locale(ctx.user.lang).welcomeMore, {
         reply_markup: inlineKeyborad,
     });
 }
@@ -44,25 +46,31 @@ export async function generate(ctx: CommandContext<Context>) {
     });
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
-    await ctx.reply(locale(ctx.lang).generatorExplain, {
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
+    await ctx.reply(locale(ctx.user.lang).generatorExplain, {
         reply_markup: inlineKeyborad,
     });
 
-    await commandsService.generateKeyboard(ctx);
+    await CommandsService.generateKeyboard(ctx);
 }
 
 export async function help(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
+        .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
-    await ctx.reply(locale(ctx.lang).helpText, {
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
+    await ctx.reply(locale(ctx.user.lang).helpText, {
         reply_markup: inlineKeyborad,
         parse_mode: 'Markdown',
         link_preview_options: { is_disabled: true },
@@ -83,16 +91,16 @@ export async function brodcast(ctx: Context) {
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
-    await ctx.reply(locale(ctx.lang).generatorExplainMore, {
+    await ctx.reply(locale(ctx.user.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard().url(
-            locale(ctx.lang).moreAboutLabel,
-            locale(ctx.lang).moreAboutUrl
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
         ),
         link_preview_options: { is_disabled: true },
     });
 
-    await commandsService.generateKeyboard(ctx);
+    await CommandsService.generateKeyboard(ctx);
 }
 
 export async function onGetLink(ctx: Context) {
@@ -100,14 +108,13 @@ export async function onGetLink(ctx: Context) {
 }
 
 export async function onGetInvite(ctx: Context) {
-    const user = ctx.from;
-    const name = user?.username || 'guest';
+    const name = ctx.user.username || 'guest';
     const inviteText = await sheetService.getInvite();
     const link = await getUrl(name);
     const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad.text(locale(ctx.lang).getAnotherInvite, 'getInvite');
+    inlineKeyborad.text(locale(ctx.user.lang).getAnotherInvite, 'getInvite');
     await ctx.reply(
-        inviteText + '\n' + locale(ctx.lang).register + '\n\n' + link,
+        inviteText + '\n' + locale(ctx.user.lang).register + '\n\n' + link,
         {
             link_preview_options: { is_disabled: true },
             reply_markup: inlineKeyborad,
@@ -122,11 +129,14 @@ export async function onGenerateQr(ctx: Context) {
     await generateQR(ctx, link);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
-    await ctx.reply(locale(ctx.lang).qrReady, {
+    await ctx.reply(locale(ctx.user.lang).qrReady, {
         reply_markup: inlineKeyborad,
     });
 }
@@ -142,11 +152,14 @@ export async function onGetStoriesTemplates(ctx: Context) {
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
-    await ctx.reply(locale(ctx.lang).storiesHelp, {
+    await ctx.reply(locale(ctx.user.lang).storiesHelp, {
         reply_markup: inlineKeyborad,
     });
 }
@@ -156,11 +169,11 @@ export async function onMessage(ctx: Context) {
     const text = ctx.message?.text || '';
 
     switch (text) {
-        case locale(ctx.lang).getLink: {
+        case locale(ctx.user.lang).getLink: {
             await generate(ctx as CommandContext<Context>);
             break;
         }
         default:
-            await ctx.reply(locale(ctx.lang).unknown);
+            await ctx.reply(locale(ctx.user.lang).unknown);
     }
 }

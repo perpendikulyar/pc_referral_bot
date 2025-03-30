@@ -1,17 +1,22 @@
 import { Bot, GrammyError, HttpError } from 'grammy';
 
-import getConfig from './core/config';
+import { botInstance } from './core/bot.instance';
 import { Router } from './core/router';
 import { loggerMiddleware } from './core/middlewares/looger.midleware';
 import { contextExtenderMiddleware } from './core/middlewares/context-extender.middleware';
 import { gaMidleware } from './core/middlewares/ga.midleware';
+import { BrodcastService } from './core/brodcast.service';
+import { guardMiddleware } from './core/middlewares/guard.middlware';
 
-const config = getConfig();
-
-const bot: Bot = new Bot(config.tgToken);
-bot.use(contextExtenderMiddleware, loggerMiddleware, gaMidleware);
-const router: Router = new Router(bot);
-router.registerCommands();
+const bot: Bot = botInstance;
+bot.use(
+    contextExtenderMiddleware,
+    loggerMiddleware,
+    gaMidleware,
+    guardMiddleware
+);
+const router: Router = new Router();
+const brodcastService = new BrodcastService();
 
 bot.catch((e) => {
     const ctx = e.ctx;

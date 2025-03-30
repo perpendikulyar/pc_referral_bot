@@ -1,11 +1,16 @@
 import { Bot, Context } from 'grammy';
 
-// Расширяем тип Context
+export interface User {
+    id?: number;
+    username?: string;
+    isAdmin?: boolean;
+    lang?: string;
+}
+
 declare module 'grammy' {
     interface Context {
-        isAdmin?: boolean;
         command?: string;
         source?: string;
-        lang?: string;
+        user: User;
     }
 }

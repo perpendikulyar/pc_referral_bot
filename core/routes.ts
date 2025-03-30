@@ -13,18 +13,26 @@ import {
     onGetLink,
     onGetStoriesTemplates,
     onMessage,
+    start,
 } from './commands';
+import { isAdmin } from './isAdmin.guard';
 
-export interface IBotCommand extends BotCommand {
+export interface Route extends BotCommand {
     command: ROUTES | FilterQuery | string;
     type: 'command' | 'callback' | 'specific';
     handler: (ctx: Context) => void;
-    guard?: boolean;
+    guard?: (ctx: Context) => Promise<boolean>;
     description: string;
 }
 
-export const applicationRoutes = (): IBotCommand[] => {
+export const applicationRoutes = (): Route[] => {
     return [
+        {
+            command: 'start',
+            type: 'command',
+            handler: async (ctx) => start(ctx as CommandContext<Context>),
+            description: 'start',
+        },
         {
             command: ROUTES.generate,
             type: 'command',
@@ -35,14 +43,15 @@ export const applicationRoutes = (): IBotCommand[] => {
             command: ROUTES.help,
             type: 'command',
             handler: async (ctx) => help(ctx as CommandContext<Context>),
-            description: locale('en').cmdGenerate,
+            description: locale('en').cmdHelp,
         },
-        // {
-        //     command: ROUTES.brodcast,
-        //     type: 'command',
-        //     handler: async (ctx) => brodcast(ctx as CommandContext<Context>),
-        //     description: locale('en').cmdGenerate,
-        // },
+        {
+            command: ROUTES.brodcast,
+            type: 'command',
+            handler: async (ctx) => brodcast(ctx as CommandContext<Context>),
+            description: 'Start Broadcast',
+            guard: isAdmin,
+        },
         {
             command: 'generatorMoreData',
             type: 'callback',

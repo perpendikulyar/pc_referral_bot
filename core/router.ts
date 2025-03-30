@@ -1,19 +1,28 @@
 import { Bot, FilterQuery } from 'grammy';
 
-import { applicationRoutes, IBotCommand } from './routes';
+import { applicationRoutes, Route } from './routes';
+import { botInstance } from './bot.instance';
+import { isAdmin } from './isAdmin.guard';
 
 export class Router {
-    private _routes: IBotCommand[] = [];
+    private static _instance: Router;
+    private _routes: Route[] = [];
     private _bot: Bot;
 
-    constructor(bot: Bot) {
+    constructor() {
         this._routes = applicationRoutes();
-        this._bot = bot;
+        this._bot = botInstance;
+        this.registerRoutes();
     }
 
-    public registerCommands() {
+    public static get Instanse() {
+        return this._instance || new this();
+    }
+
+    public registerRoutes() {
         const commands = this._routes.filter((e) => e.type === 'command');
-        this._bot.api.setMyCommands(commands);
+        this.registerBotCommands(commands);
+
         commands.forEach((e) => {
             this._bot.command(e.command, e.handler);
         });
@@ -29,8 +38,47 @@ export class Router {
         });
     }
 
-    public addRoute(route: IBotCommand) {
-        this._routes.push(route);
+    public addRoute(route: Route | string) {
+        if (typeof route == 'string') {
+            const findRoute: Route = applicationRoutes().filter(
+                (e) => e.command === route
+            )[0];
+            this._routes.push(findRoute);
+        } else {
+            this._routes.push(route);
+        }
+        this.registerRoutes();
         return this._routes;
+    }
+
+    public addRoutes(_routes: Array<Route | string>) {
+        _routes.forEach((e) => {
+            this.addRoute(e);
+        });
+        this.registerRoutes();
+        return this._routes;
+    }
+
+    public removeRoute(command: string) {
+        this._routes = this._routes.filter((e) => e.command != command);
+        this.registerRoutes();
+        return this._routes;
+    }
+
+    public get routes() {
+        return this._routes;
+    }
+
+    public registerBotCommands(routes: Array<Route | string>) {
+        const result: Route[] = [];
+        routes.forEach((e) => {
+            if (typeof e === 'string') {
+                result.push(this._routes.filter((r) => r.command === e)[0]);
+            } else {
+                result.push(e);
+            }
+        });
+        const commands = result.filter((e) => e.command !== 'start');
+        this._bot.api.setMyCommands(commands);
     }
 }

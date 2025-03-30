@@ -83,8 +83,6 @@ export class SheetService {
         if (!sheet) {
             console.error(`SheetService: list with name 'invites' not found`);
             return;
-        } else {
-            return sheet;
         }
 
         const rows = await sheet.getRows({ limit: 25 });
