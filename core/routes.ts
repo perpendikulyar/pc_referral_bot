@@ -2,10 +2,9 @@ import { BotCommand } from 'grammy/types';
 
 import { ROUTES } from './routes.enum';
 import { locale } from './localisations';
-import { CommandContext, Context, FilterQuery } from 'grammy';
+import { CommandContext, Context } from 'grammy';
 import {
     adminPanel,
-    brodcast,
     generate,
     help,
     onGenerateQr,
@@ -14,13 +13,14 @@ import {
     onGetLink,
     onGetStoriesTemplates,
     onMessage,
+    onStartBroadcast,
     start,
 } from './commands';
 import { isAdmin } from './isAdmin.guard';
 
 export interface Route extends BotCommand {
-    command: ROUTES | FilterQuery | string;
-    type: 'command' | 'callback' | 'specific';
+    command: ROUTES;
+    type: 'command' | 'callback' | 'hears' |'specific';
     handler: (ctx: Context) => void;
     guard?: (ctx: Context) => Promise<boolean>;
     description: string;
@@ -29,7 +29,7 @@ export interface Route extends BotCommand {
 export const applicationRoutes = (): Route[] => {
     return [
         {
-            command: 'start',
+            command: ROUTES.start,
             type: 'command',
             handler: async (ctx) => start(ctx as CommandContext<Context>),
             description: 'start',
@@ -54,44 +54,44 @@ export const applicationRoutes = (): Route[] => {
             guard: isAdmin
         },
         {
-            command: ROUTES.brodcast,
-            type: 'command',
-            handler: async (ctx) => brodcast(ctx as CommandContext<Context>),
-            description: 'Start Broadcast',
-            guard: isAdmin,
-        },
-        {
-            command: 'generatorMoreData',
+            command: ROUTES.generatorMoreData,
             type: 'callback',
             description: '',
             handler: onGeneratorMore
         },
         {
-            command: 'getLink',
+            command: ROUTES.getLink,
             type: 'callback',
             description: '',
             handler: onGetLink,
         },
         {
-            command: 'getInvite',
+            command: ROUTES.getInvite,
             type: 'callback',
             description: '',
             handler: onGetInvite,
         },
         {
-            command: 'generateQr',
+            command: ROUTES.generateQr,
             type: 'callback',
             description: '',
             handler: onGenerateQr,
         },
         {
-            command: 'getStories',
+            command: ROUTES.getStories,
             type: 'callback',
             description: '',
             handler: onGetStoriesTemplates,
         },
         {
-            command: 'message',
+            command: ROUTES.brodcast,
+            type: 'hears',
+            description: 'start broadcast',
+            handler: onStartBroadcast,
+            guard: isAdmin,
+        },
+        {
+            command: ROUTES.message,
             type: 'specific',
             handler: onMessage,
             description: '',

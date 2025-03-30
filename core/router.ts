@@ -32,6 +32,11 @@ export class Router {
             this._bot.callbackQuery(e.command, e.handler);
         });
 
+        const hears = this._routes.filter(e => e.type === 'hears');
+        hears.forEach(e => {
+            this._bot.hears(e.command, e.handler);
+        })
+
         const specific = this._routes.filter((e) => e.type === 'specific');
         specific.forEach((e) => {
             this._bot.on(e.command as FilterQuery, e.handler);

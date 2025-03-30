@@ -1,4 +1,4 @@
-import { CommandContext, Context, InlineKeyboard } from 'grammy';
+import { CommandContext, Context, InlineKeyboard, Keyboard } from 'grammy';
 
 import getUrl from './link';
 import { UserLink } from './dto/userlink.dto';
@@ -8,6 +8,7 @@ import generateQR from './qr-generator';
 import { AssetsService } from './assets.service';
 import { CommandsService } from './commands.service';
 import { BrodcastService } from './brodcast.service';
+import { ROUTES } from './routes.enum';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
@@ -78,25 +79,12 @@ export async function help(ctx: CommandContext<Context>) {
 }
 
 export async function adminPanel(ctx: Context) {
-    await ctx.reply("Админка");
+    const keyboard = new Keyboard().text(ROUTES.brodcast);
+    await ctx.reply("Админка", {
+        reply_markup: keyboard
+    });
 }
 
-export async function brodcast(ctx: Context) {
-    const testChatId = ctx.chat?.id;
-
-    const result = await brodcastService.brodcastMessage(
-        'Привет! это текст рассылки, который мог бы быть отправлен всем почитателям этого бота',
-        testChatId
-    );
-    if (!result) {
-        console.log(`Brodcast failed`);
-        return;
-    }
-
-    await ctx.reply(
-        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`
-    );
-}
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
@@ -172,6 +160,26 @@ export async function onGetStoriesTemplates(ctx: Context) {
         reply_markup: inlineKeyborad,
     });
 }
+
+export async function onStartBroadcast(ctx: Context) {
+    const testChatId = ctx.chat?.id;
+
+    const result = await brodcastService.brodcastMessage(
+        'Привет! это текст рассылки, который мог бы быть отправлен всем почитателям этого бота',
+        testChatId
+    );
+    if (!result) {
+        console.log(`Brodcast failed`);
+        return;
+    }
+
+    await ctx.reply(
+        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`, {
+            reply_markup: {remove_keyboard: true}
+        }
+    );
+}
+
 
 /** messages recived */
 export async function onMessage(ctx: Context) {

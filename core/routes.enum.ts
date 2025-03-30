@@ -2,6 +2,12 @@ export enum ROUTES {
     start = 'start',
     help = 'help',
     generate = 'generate',
-    brodcast = 'broadcast',
-    adminPanel = 'admin_panel'
+    brodcast = 'start_broadcast',
+    adminPanel = 'admin_panel',
+    generatorMoreData = "generatorMoreData",
+    getLink = "getLink",
+    getInvite= "getInvite",
+    generateQr = "generateQr",
+    getStories = "getStories",
+    message = "message"
 }
