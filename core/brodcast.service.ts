@@ -11,8 +11,8 @@ export class BrodcastService {
         this.sheetService = new SheetService();
     }
 
-    async brodcastMessage(text: string) {
-        console.log(`brodcast starting`);
+    async brodcastMessage(text: string, testId?: number) {
+        console.log(`brodcast starting...`);
 
         let success = 0;
         let errors = 0;
@@ -24,7 +24,7 @@ export class BrodcastService {
 
         for (const chatId of chatIds) {
             try {
-                if (chatId == 257180579) {
+                if (chatId == testId) {
                     await this._bot.api.sendMessage(chatId, text);
                     success++;
                 } else {

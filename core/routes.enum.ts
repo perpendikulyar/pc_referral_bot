@@ -3,4 +3,5 @@ export enum ROUTES {
     help = 'help',
     generate = 'generate',
     brodcast = 'broadcast',
+    adminPanel = 'admin_panel'
 }

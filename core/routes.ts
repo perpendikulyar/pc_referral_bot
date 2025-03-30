@@ -4,6 +4,7 @@ import { ROUTES } from './routes.enum';
 import { locale } from './localisations';
 import { CommandContext, Context, FilterQuery } from 'grammy';
 import {
+    adminPanel,
     brodcast,
     generate,
     help,
@@ -46,6 +47,13 @@ export const applicationRoutes = (): Route[] => {
             description: locale('en').cmdHelp,
         },
         {
+            command: ROUTES.adminPanel,
+            type: 'command',
+            handler: async (ctx) => adminPanel(ctx as CommandContext<Context>),
+            description: 'Admin',
+            guard: isAdmin
+        },
+        {
             command: ROUTES.brodcast,
             type: 'command',
             handler: async (ctx) => brodcast(ctx as CommandContext<Context>),
@@ -56,36 +64,36 @@ export const applicationRoutes = (): Route[] => {
             command: 'generatorMoreData',
             type: 'callback',
             description: '',
-            handler: async (ctx) => onGeneratorMore(ctx),
+            handler: onGeneratorMore
         },
         {
             command: 'getLink',
             type: 'callback',
             description: '',
-            handler: async (ctx) => onGetLink(ctx),
+            handler: onGetLink,
         },
         {
             command: 'getInvite',
             type: 'callback',
             description: '',
-            handler: async (ctx) => onGetInvite(ctx),
+            handler: onGetInvite,
         },
         {
             command: 'generateQr',
             type: 'callback',
             description: '',
-            handler: async (ctx) => onGenerateQr(ctx),
+            handler: onGenerateQr,
         },
         {
             command: 'getStories',
             type: 'callback',
             description: '',
-            handler: async (ctx) => onGetStoriesTemplates(ctx),
+            handler: onGetStoriesTemplates,
         },
         {
             command: 'message',
             type: 'specific',
-            handler: async (ctx) => onMessage(ctx),
+            handler: onMessage,
             description: '',
         },
     ];

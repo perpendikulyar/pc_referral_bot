@@ -77,8 +77,17 @@ export async function help(ctx: CommandContext<Context>) {
     });
 }
 
+export async function adminPanel(ctx: Context) {
+    await ctx.reply("Админка");
+}
+
 export async function brodcast(ctx: Context) {
-    const result = await brodcastService.brodcastMessage('Hello world');
+    const testChatId = ctx.chat?.id;
+
+    const result = await brodcastService.brodcastMessage(
+        'Привет! это текст рассылки, который мог бы быть отправлен всем почитателям этого бота',
+        testChatId
+    );
     if (!result) {
         console.log(`Brodcast failed`);
         return;
