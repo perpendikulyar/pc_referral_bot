@@ -16,7 +16,7 @@ import {
     onStartBroadcast,
     start,
 } from './commands';
-import { isAdmin } from './isAdmin.guard';
+import { isAdmin } from './guards/isAdmin.guard';
 
 export interface Route extends BotCommand {
     command: ROUTES;
