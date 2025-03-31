@@ -1,7 +1,7 @@
 import { BotCommand } from 'grammy/types';
 
 import { ROUTES } from './routes.enum';
-import { locale } from './localisations';
+import { locale } from '../localisations';
 import { CommandContext, Context } from 'grammy';
 import {
     adminPanel,
@@ -15,8 +15,8 @@ import {
     onMessage,
     onStartBroadcast,
     start,
-} from './commands';
-import { isAdmin } from './guards/isAdmin.guard';
+} from '../commands';
+import { isAdmin } from '../guards/isAdmin.guard';
 
 export interface Route extends BotCommand {
     command: ROUTES;

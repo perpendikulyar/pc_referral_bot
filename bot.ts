@@ -1,11 +1,11 @@
 import { Bot, GrammyError, HttpError } from 'grammy';
 
 import { botInstance } from './core/bot.instance';
-import { Router } from './core/router';
+import { Router } from './core/router/router';
 import { loggerMiddleware } from './core/middlewares/looger.midleware';
 import { contextExtenderMiddleware } from './core/middlewares/context-extender.middleware';
 import { gaMidleware } from './core/middlewares/ga.midleware';
-import { BrodcastService } from './core/brodcast.service';
+import { BrodcastService } from './core/services/brodcast.service';
 import { guardMiddleware } from './core/middlewares/guard.middlware';
 
 const bot: Bot = botInstance;

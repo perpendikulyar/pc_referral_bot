@@ -1,6 +1,6 @@
 import { Bot } from 'grammy';
 import { SheetService } from './google_api/sheet.service';
-import { botInstance } from './bot.instance';
+import { botInstance } from '../bot.instance';
 
 export class BrodcastService {
     private _bot: Bot;

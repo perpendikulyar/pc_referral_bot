@@ -1,17 +1,19 @@
 import { CommandContext, Context, InlineKeyboard, Keyboard } from 'grammy';
 
-import getUrl from './link';
+import { LinkService } from './services/link.service';
 import { UserLink } from './dto/userlink.dto';
 import { locale } from './localisations';
-import { SheetService } from './google_api/sheet.service';
-import generateQR from './qr-generator';
-import { AssetsService } from './assets.service';
+import { SheetService } from './services/google_api/sheet.service';
+import { AssetsService } from './services/assets.service';
 import { CommandsService } from './commands.service';
-import { BrodcastService } from './brodcast.service';
-import { ROUTES } from './routes.enum';
+import { BrodcastService } from './services/brodcast.service';
+import { ROUTES } from './router/routes.enum';
+import { QrCodeService } from './services/qr-code.service';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
+const linkService = new LinkService();
+const qrCodeService = new QrCodeService();
 const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
@@ -39,7 +41,7 @@ export async function start(ctx: CommandContext<Context>) {
 export async function generate(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
-    const url = await getUrl(name);
+    const url = await linkService.getUrl(name);
     UserLink.createAndSave(name, url);
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
@@ -107,7 +109,7 @@ export async function onGetLink(ctx: Context) {
 export async function onGetInvite(ctx: Context) {
     const name = ctx.user.username || 'guest';
     const inviteText = await sheetService.getInvite();
-    const link = await getUrl(name);
+    const link = await linkService.getUrl(name);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad.text(locale(ctx.user.lang).getAnotherInvite, 'getInvite');
     await ctx.reply(
@@ -122,8 +124,8 @@ export async function onGetInvite(ctx: Context) {
 export async function onGenerateQr(ctx: Context) {
     const user = ctx.from;
     const name = user?.username || 'guest';
-    const link = await getUrl(name);
-    await generateQR(ctx, link);
+    const link = await linkService.getUrl(name);
+    await qrCodeService.generate(ctx, link);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')

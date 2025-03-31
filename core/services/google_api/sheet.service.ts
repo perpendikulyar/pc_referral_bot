@@ -1,12 +1,11 @@
 import {
     GoogleSpreadsheet,
     GoogleSpreadsheetWorksheet,
-    GoogleSpreadsheetRow,
 } from 'google-spreadsheet';
 
 import { AuthService } from './auth.service';
-import getConfig from '../config';
-import { DTO } from '../dto/dto';
+import getConfig from '../../config';
+import { DTO } from '../../dto/dto';
 
 export class SheetService {
     private doc: GoogleSpreadsheet;

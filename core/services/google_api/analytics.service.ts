@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import getConfig from '../config';
+import getConfig from '../../config';
 import { Context } from 'grammy';
 
 const keys = getConfig().analytics;

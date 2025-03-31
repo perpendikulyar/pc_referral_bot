@@ -1,7 +1,7 @@
 import { Bot, FilterQuery } from 'grammy';
 
 import { applicationRoutes, Route } from './routes';
-import { botInstance } from './bot.instance';
+import { botInstance } from '../bot.instance';
 
 export class Router {
     private static _instance: Router;

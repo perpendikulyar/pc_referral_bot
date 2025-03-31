@@ -1,5 +1,5 @@
 import { Context, NextFunction } from 'grammy';
-import { applicationRoutes } from '../routes';
+import { applicationRoutes } from '../router/routes';
 
 export async function guardMiddleware(
     ctx: Context,

@@ -1,5 +1,5 @@
 import { JWT } from 'google-auth-library';
-import getConfig from '../config';
+import getConfig from '../../config';
 
 const config = getConfig();
 const keys = config.googleapiConfig;
