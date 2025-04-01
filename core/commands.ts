@@ -17,25 +17,13 @@ const qrCodeService = new QrCodeService();
 const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
-    if (ctx.source === 'apply_digest') {
-        await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
-    } else {
-        await ctx.reply(locale(ctx.user.lang).welcome);
-    }
-
     const inlineKeyborad = new InlineKeyboard();
 
-
-    if (ctx.source === 'orgchat_poll') {
-        inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
-        .row()
-        .url(locale(ctx.lang).orgPollLabel, locale(ctx.lang).orgPollLink);
-    await ctx.reply(locale(ctx.lang).orgPoll, {
-        reply_markup: inlineKeyborad,
-    });
+    if (ctx.source === 'apply_digest') {
+        await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
+        await CommandsService.generateKeyboard(ctx);
     } else {
-        await ctx.reply(locale(ctx.lang).welcome);
+        await ctx.reply(locale(ctx.user.lang).welcome);
         inlineKeyborad
         .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
