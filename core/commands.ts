@@ -1,35 +1,38 @@
-import { CommandContext, Context, InlineKeyboard } from 'grammy';
+import { CommandContext, Context, InlineKeyboard, Keyboard } from 'grammy';
 
-import getUrl from './link';
+import { LinkService } from './services/link.service';
 import { UserLink } from './dto/userlink.dto';
 import { locale } from './localisations';
-import { SheetService } from './google_api/sheet.service';
-import generateQR from './qr-generator';
-import { AssetsService } from './assets.service';
+import { SheetService } from './services/google_api/sheet.service';
+import { AssetsService } from './services/assets.service';
 import { CommandsService } from './commands.service';
+import { BrodcastService } from './services/brodcast.service';
+import { ROUTES } from './router/routes.enum';
+import { QrCodeService } from './services/qr-code.service';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
-const commandsService = new CommandsService();
+const linkService = new LinkService();
+const qrCodeService = new QrCodeService();
+const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
 
-    if (ctx.source === 'orgchat_poll') {
-        inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
-        .row()
-        .url(locale(ctx.lang).orgPollLabel, locale(ctx.lang).orgPollLink);
-    await ctx.reply(locale(ctx.lang).orgPoll, {
-        reply_markup: inlineKeyborad,
-    });
+    if (ctx.source === 'apply_digest') {
+        await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
+        await CommandsService.generateKeyboard(ctx);
     } else {
-        await ctx.reply(locale(ctx.lang).welcome);
+        await ctx.reply(locale(ctx.user.lang).welcome);
         inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
+        .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
-    await ctx.reply(locale(ctx.lang).welcomeMore, {
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
+
+    await ctx.reply(locale(ctx.user.lang).welcomeMore, {
         reply_markup: inlineKeyborad,
     });
     }
@@ -39,7 +42,7 @@ export async function start(ctx: CommandContext<Context>) {
 export async function generate(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
-    const url = await getUrl(name);
+    const url = await linkService.getUrl(name);
     UserLink.createAndSave(name, url);
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
@@ -47,40 +50,57 @@ export async function generate(ctx: CommandContext<Context>) {
     });
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
-    await ctx.reply(locale(ctx.lang).generatorExplain, {
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
+    await ctx.reply(locale(ctx.user.lang).generatorExplain, {
         reply_markup: inlineKeyborad,
     });
 
-    await commandsService.generateKeyboard(ctx);
+    await CommandsService.generateKeyboard(ctx);
 }
 
 export async function help(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).getLink, 'getLink')
+        .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
-    await ctx.reply(locale(ctx.lang).helpText, {
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
+    await ctx.reply(locale(ctx.user.lang).helpText, {
         reply_markup: inlineKeyborad,
         parse_mode: 'Markdown',
         link_preview_options: { is_disabled: true },
     });
 }
 
+export async function adminPanel(ctx: Context) {
+    const keyboard = new Keyboard().text(ROUTES.brodcast);
+    await ctx.reply("Админка", {
+        reply_markup: keyboard
+    });
+}
+
+
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
-    await ctx.reply(locale(ctx.lang).generatorExplainMore, {
+    await ctx.reply(locale(ctx.user.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard().url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl),
+        reply_markup: new InlineKeyboard().url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        ),
         link_preview_options: { is_disabled: true },
     });
 
-    await commandsService.generateKeyboard(ctx);
+    await CommandsService.generateKeyboard(ctx);
 }
 
 export async function onGetLink(ctx: Context) {
@@ -88,14 +108,13 @@ export async function onGetLink(ctx: Context) {
 }
 
 export async function onGetInvite(ctx: Context) {
-    const user = ctx.from;
-    const name = user?.username || 'guest';
+    const name = ctx.user.username || 'guest';
     const inviteText = await sheetService.getInvite();
-    const link = await getUrl(name);
+    const link = await linkService.getUrl(name);
     const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad.text(locale(ctx.lang).getAnotherInvite, 'getInvite');
+    inlineKeyborad.text(locale(ctx.user.lang).getAnotherInvite, 'getInvite');
     await ctx.reply(
-        inviteText + '\n' + locale(ctx.lang).register + '\n\n' + link,
+        inviteText + '\n' + locale(ctx.user.lang).register + '\n\n' + link,
         {
             link_preview_options: { is_disabled: true },
             reply_markup: inlineKeyborad,
@@ -106,46 +125,75 @@ export async function onGetInvite(ctx: Context) {
 export async function onGenerateQr(ctx: Context) {
     const user = ctx.from;
     const name = user?.username || 'guest';
-    const link = await getUrl(name);
-    await generateQR(ctx, link);
+    const link = await linkService.getUrl(name);
+    await qrCodeService.generate(ctx, link);
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
-    await ctx.reply(locale(ctx.lang).qrReady, {
+    await ctx.reply(locale(ctx.user.lang).qrReady, {
         reply_markup: inlineKeyborad,
     });
 }
 
-export async function onGetStoriesTemplates (ctx: Context) {
+export async function onGetStoriesTemplates(ctx: Context) {
     await ctx.replyWithMediaGroup([
-        {type: 'photo', media: await assetsService.getImage('story.png')},
-        {type: 'photo', media: await assetsService.getImage('square-post.png')}
+        { type: 'photo', media: await assetsService.getImage('story.png') },
+        {
+            type: 'photo',
+            media: await assetsService.getImage('square-post.png'),
+        },
     ]);
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.lang).generatorMoreBtn, 'generatorMoreData')
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
-        .url(locale(ctx.lang).moreAboutLabel, locale(ctx.lang).moreAboutUrl);
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
-    await ctx.reply(locale(ctx.lang).storiesHelp, {
+    await ctx.reply(locale(ctx.user.lang).storiesHelp, {
         reply_markup: inlineKeyborad,
     });
 }
+
+export async function onStartBroadcast(ctx: Context) {
+    const testChatId = ctx.chat?.id;
+
+    const result = await brodcastService.brodcastMessage(
+        'Привет! это текст рассылки, который мог бы быть отправлен всем почитателям этого бота',
+        testChatId
+    );
+    if (!result) {
+        console.log(`Brodcast failed`);
+        return;
+    }
+
+    await ctx.reply(
+        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`, {
+            reply_markup: {remove_keyboard: true}
+        }
+    );
+}
+
 
 /** messages recived */
 export async function onMessage(ctx: Context) {
     const text = ctx.message?.text || '';
 
     switch (text) {
-        case locale(ctx.lang).getLink: {
+        case locale(ctx.user.lang).getLink: {
             await generate(ctx as CommandContext<Context>);
             break;
         }
         default:
-            await ctx.reply(locale(ctx.lang).unknown);
+            await ctx.reply(locale(ctx.user.lang).unknown);
     }
 }

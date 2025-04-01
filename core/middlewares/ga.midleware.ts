@@ -1,5 +1,5 @@
 import { Context, NextFunction } from 'grammy';
-import { AnalyticsService } from '../google_api/analytics.service';
+import { AnalyticsService } from '../services/google_api/analytics.service';
 
 const analyticsService = new AnalyticsService();
 

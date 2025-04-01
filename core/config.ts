@@ -8,6 +8,7 @@ interface IConfig {
     firebaseConfig: FirebaseOptions;
     googleapiConfig: JWTInput;
     analytics: { m_id: string; secret: string };
+    admins: string[];
 }
 
 dotenv.config();
@@ -19,6 +20,7 @@ export default function getConfig(): IConfig {
         firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG || ''),
         googleapiConfig: JSON.parse(process.env.G_API_CONFIG || ''),
         analytics: JSON.parse(process.env.GA_CONFIG || ''),
+        admins: process.env.ADMINS?.split(',') || [],
     };
 
     if (!config.tgToken) {

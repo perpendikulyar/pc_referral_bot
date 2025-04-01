@@ -1,4 +1,4 @@
-import { SheetService } from '../google_api/sheet.service';
+import { SheetService } from '../services/google_api/sheet.service';
 
 export abstract class DTO {
     abstract readonly tableName: string;

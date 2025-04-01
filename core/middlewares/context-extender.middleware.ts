@@ -1,4 +1,7 @@
 import { Context, NextFunction } from 'grammy';
+import getConfig from '../config';
+
+const config = getConfig();
 
 export async function contextExtenderMiddleware(
     ctx: Context,
@@ -17,7 +20,17 @@ export async function contextExtenderMiddleware(
         ctx.command = 'message';
     }
 
-    ctx.lang = ctx.from?.language_code || 'ru';
+    if (ctx.from) {
+        ctx.user = {
+            id: ctx.from.id,
+            lang: ctx.from.language_code || 'ru',
+            username: ctx.from.username || 'Guest',
+            isAdmin:
+                ctx.from?.username && config.admins.includes(ctx.from.username)
+                    ? true
+                    : false,
+        };
+    }
 
     await next();
 }
