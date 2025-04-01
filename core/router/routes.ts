@@ -24,6 +24,7 @@ export interface Route extends BotCommand {
     handler: (ctx: Context) => void;
     guard?: (ctx: Context) => Promise<boolean>;
     description: string;
+    allowedInMenu?: boolean;
 }
 
 export const applicationRoutes = (): Route[] => {
@@ -39,12 +40,14 @@ export const applicationRoutes = (): Route[] => {
             type: 'command',
             handler: async (ctx) => generate(ctx as CommandContext<Context>),
             description: locale('en').cmdGenerate,
+            allowedInMenu: true,
         },
         {
             command: ROUTES.help,
             type: 'command',
             handler: async (ctx) => help(ctx as CommandContext<Context>),
             description: locale('en').cmdHelp,
+            allowedInMenu: true,
         },
         {
             command: ROUTES.adminPanel,

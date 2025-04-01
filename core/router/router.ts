@@ -2,6 +2,7 @@ import { Bot, FilterQuery } from 'grammy';
 
 import { applicationRoutes, Route } from './routes';
 import { botInstance } from '../bot.instance';
+import { ROUTES } from './routes.enum';
 
 export class Router {
     private static _instance: Router;
@@ -82,7 +83,7 @@ export class Router {
                 result.push(e);
             }
         });
-        const commands = result.filter((e) => e.command !== 'start');
+        const commands = result.filter((e) => e.allowedInMenu);
         this._bot.api.setMyCommands(commands);
     }
 }
