@@ -22,6 +22,9 @@ export async function start(ctx: CommandContext<Context>) {
     if (ctx.source === 'apply_digest') {
         await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
         await CommandsService.generateKeyboard(ctx);
+    } if (ctx.source === 'avatar') {
+        await ctx.reply('Привет, это реферальный бот ProductCamp.\n\nТеперь тут можно сделать себе фирменную аватарку кэмпа, и не только!');
+        await CommandsService.generateKeyboard(ctx);
     } else {
         await ctx.reply(locale(ctx.user.lang).welcome);
         inlineKeyborad
@@ -220,6 +223,7 @@ async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
     if (!userAvatarPath) return;
     const newAvatar = await assetsService.generateAvatar(userAvatarPath, type);
     await ctx.replyWithPhoto(newAvatar);
+    await ctx.reply("Поставь себе новую классную аватарку, и не забудь добавить свою реферальную ссылку в профайл")
 } 
 
 // hears
