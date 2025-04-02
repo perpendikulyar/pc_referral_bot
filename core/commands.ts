@@ -23,7 +23,7 @@ export async function start(ctx: CommandContext<Context>) {
         await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
         await CommandsService.generateKeyboard(ctx);
     } if (ctx.source === 'avatar') {
-        await ctx.reply('Привет, это реферальный бот ProductCamp.\n\nТеперь тут можно сделать себе фирменную аватарку кэмпа, и не только!');
+        await ctx.reply('Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!');
         await CommandsService.generateKeyboard(ctx);
     } else {
         await ctx.reply(locale(ctx.user.lang).welcome);
