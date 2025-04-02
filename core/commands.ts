@@ -174,11 +174,11 @@ export async function onGenerateAvatar(ctx: Context) {
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('left.png'),
-        },
+        },        
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('right.png'),
-        },
+        },        
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('round.png'),
@@ -187,15 +187,17 @@ export async function onGenerateAvatar(ctx: Context) {
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text('По центру', 'avatar-center')
-        .text('По кругу', 'avatar-round')
-        .row()
-        .text('Слева', 'avatar-left')
-        .text('Справа', 'avatar-right');
+    .text('По центру', 'avatar-center')
+    .text('По кругу', 'avatar-round')
+    .row()
+    .text('Слева', 'avatar-left')
+    .text('Справа', 'avatar-right');
 
-    await ctx.reply('Выбери, какой аватар тебе больше подходит', {
-        reply_markup: inlineKeyborad,
-    });
+    await ctx.reply('Выбери, какой аватар тебе больше подходит',
+        {
+            reply_markup: inlineKeyborad
+        }
+    )
 }
 
 export async function onCreateAvatar(ctx: Context) {
@@ -205,11 +207,11 @@ export async function onCreateAvatar(ctx: Context) {
         ctx.api.deleteMessage(
             ctx.callbackQuery?.message.chat.id,
             ctx.callbackQuery?.message.message_id
-        );
-    }
+        )
+    }   
 
     const data = ctx.callbackQuery?.data;
-    const type: AVATAR_TYPE = (data?.split('-')[1] + '.png') as AVATAR_TYPE;
+    const type: AVATAR_TYPE = data?.split('-')[1] + '.png' as AVATAR_TYPE;
     return createAvatar(ctx, type);
 }
 
@@ -218,7 +220,7 @@ async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
     if (!userAvatarPath) return;
     const newAvatar = await assetsService.generateAvatar(userAvatarPath, type);
     await ctx.replyWithPhoto(newAvatar);
-}
+} 
 
 // hears
 export async function onStartBroadcast(ctx: Context) {
