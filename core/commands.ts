@@ -4,7 +4,7 @@ import { LinkService } from './services/link.service';
 import { UserLink } from './dto/userlink.dto';
 import { locale } from './localisations';
 import { SheetService } from './services/google_api/sheet.service';
-import { AssetsService } from './services/assets.service';
+import { AssetsService, AVATAR_TYPE } from './services/assets.service';
 import { CommandsService } from './commands.service';
 import { BrodcastService } from './services/brodcast.service';
 import { ROUTES } from './router/routes.enum';
@@ -166,9 +166,57 @@ export async function onGetStoriesTemplates(ctx: Context) {
 }
 
 export async function onGenerateAvatar(ctx: Context) {
+    await ctx.replyWithMediaGroup([
+        {
+            type: 'photo',
+            media: await assetsService.getAvatarImage('center.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getAvatarImage('left.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getAvatarImage('right.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getAvatarImage('round.png'),
+        },
+    ]);
+
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad
+        .text('По центру', 'avatar-center')
+        .text('По кругу', 'avatar-round')
+        .row()
+        .text('Слева', 'avatar-left')
+        .text('Справа', 'avatar-right');
+
+    await ctx.reply('Выбери, какой аватар тебе больше подходит', {
+        reply_markup: inlineKeyborad,
+    });
+}
+
+export async function onCreateAvatar(ctx: Context) {
+    await ctx.answerCallbackQuery();
+
+    if (ctx.callbackQuery?.message) {
+        ctx.api.deleteMessage(
+            ctx.callbackQuery?.message.chat.id,
+            ctx.callbackQuery?.message.message_id
+        );
+    }
+
+    const data = ctx.callbackQuery?.data;
+    const type: AVATAR_TYPE = (data?.split('-')[1] + '.png') as AVATAR_TYPE;
+    return createAvatar(ctx, type);
+}
+
+async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
     const userAvatarPath = await CommandsService.getUserAvatarPath(ctx);
     if (!userAvatarPath) return;
-    const newAvatar = await assetsService.generateAvatar(userAvatarPath);
+    const newAvatar = await assetsService.generateAvatar(userAvatarPath, type);
     await ctx.replyWithPhoto(newAvatar);
 }
 

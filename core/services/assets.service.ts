@@ -4,6 +4,13 @@ import { InputFile } from 'grammy';
 import path from 'path';
 import sharp from 'sharp';
 
+export enum AVATAR_TYPE {
+    center = 'center.png',
+    round = 'round.png',
+    left = 'left.png',
+    right = 'right.png',
+}
+
 export class AssetsService {
     private ASSETS_DIR: string = path.join(__dirname, '../../../assets');
 
@@ -28,7 +35,11 @@ export class AssetsService {
         return this.getImagePath(maskName, 'avatars/preview');
     }
 
-    public async generateAvatar(proileAvatarUrl: string) {
+    public async getAvatarImage(maskName: string) {
+        return await this.getImage(this.getAvatarMaskPreviewPath(maskName));
+    }
+
+    public async generateAvatar(proileAvatarUrl: string, type: AVATAR_TYPE) {
         const size = 512;
 
         const response: AxiosResponse<ArrayBuffer> = await axios.get(
@@ -36,7 +47,7 @@ export class AssetsService {
             { responseType: 'arraybuffer' }
         );
         const avatarBuffer: Buffer = Buffer.from(response.data);
-        const framePath = this.getAvatarMaskPath('right.png');
+        const framePath = this.getAvatarMaskPath(type);
 
         const frameBuffer: Buffer = await sharp(framePath)
             .resize(size, size)
@@ -50,7 +61,7 @@ export class AssetsService {
                     input: frameBuffer,
                 },
             ])
-            .png( {force: true})
+            .png({ force: true })
             .toBuffer();
 
         return new InputFile(new Uint8Array(processed));

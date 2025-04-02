@@ -10,5 +10,9 @@ export enum ROUTES {
     generateQr = 'generateQr',
     getStories = 'getStories',
     generateAvatar = 'generateAvatar',
+    avatarCenter = 'avatar-center',
+    avatarRound = 'avatar-round',
+    avatarLeft = 'avatar-left',
+    avatarRight = 'avatar-right',
     message = 'message',
 }

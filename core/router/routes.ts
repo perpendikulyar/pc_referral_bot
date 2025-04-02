@@ -7,6 +7,7 @@ import {
     adminPanel,
     generate,
     help,
+    onCreateAvatar,
     onGenerateAvatar,
     onGenerateQr,
     onGeneratorMore,
@@ -92,6 +93,30 @@ export const applicationRoutes = (): Route[] => {
             type: 'callback',
             description: '',
             handler: onGenerateAvatar,
+        },
+        {
+            command: ROUTES.avatarCenter,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarRound,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarLeft,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarRight,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
         },
         {
             command: ROUTES.brodcast,
