@@ -7,6 +7,8 @@ import {
     adminPanel,
     generate,
     help,
+    onCreateAvatar,
+    onGenerateAvatar,
     onGenerateQr,
     onGeneratorMore,
     onGetInvite,
@@ -20,7 +22,7 @@ import { isAdmin } from '../guards/isAdmin.guard';
 
 export interface Route extends BotCommand {
     command: ROUTES;
-    type: 'command' | 'callback' | 'hears' |'specific';
+    type: 'command' | 'callback' | 'hears' | 'specific';
     handler: (ctx: Context) => void;
     guard?: (ctx: Context) => Promise<boolean>;
     description: string;
@@ -54,13 +56,13 @@ export const applicationRoutes = (): Route[] => {
             type: 'command',
             handler: async (ctx) => adminPanel(ctx as CommandContext<Context>),
             description: 'Admin',
-            guard: isAdmin
+            guard: isAdmin,
         },
         {
             command: ROUTES.generatorMoreData,
             type: 'callback',
             description: '',
-            handler: onGeneratorMore
+            handler: onGeneratorMore,
         },
         {
             command: ROUTES.getLink,
@@ -85,6 +87,36 @@ export const applicationRoutes = (): Route[] => {
             type: 'callback',
             description: '',
             handler: onGetStoriesTemplates,
+        },
+        {
+            command: ROUTES.generateAvatar,
+            type: 'callback',
+            description: '',
+            handler: onGenerateAvatar,
+        },
+        {
+            command: ROUTES.avatarCenter,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarRound,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarLeft,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
+        },
+        {
+            command: ROUTES.avatarRight,
+            type: 'callback',
+            description: '',
+            handler: onCreateAvatar,
         },
         {
             command: ROUTES.brodcast,

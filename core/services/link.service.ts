@@ -5,8 +5,8 @@ const utmCampaign: String = 'refProg';
 export class LinkService {
     private _endpoint = 'https://clck.ru/--';
 
-    private async minify(url:string): Promise<string> {
-        const result = await fetch(`${this._endpoint}?url=${url}`)
+    private async minify(url: string): Promise<string> {
+        const result = await fetch(`${this._endpoint}?url=${url}`);
         return result.text();
     }
 
