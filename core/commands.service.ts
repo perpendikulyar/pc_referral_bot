@@ -14,7 +14,7 @@ export class CommandsService {
             .row()
             .text(locale(lang).stories, 'getStories')
             .row()
-            .text('genAvatar', ROUTES.generateAvatar)
+            .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
             .row()
             .text(locale(lang).getQr, 'generateQr');
 
