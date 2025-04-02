@@ -25,18 +25,17 @@ export async function start(ctx: CommandContext<Context>) {
     } else {
         await ctx.reply(locale(ctx.user.lang).welcome);
         inlineKeyborad
-        .text(locale(ctx.user.lang).getLink, 'getLink')
-        .row()
-        .url(
-            locale(ctx.user.lang).moreAboutLabel,
-            locale(ctx.user.lang).moreAboutUrl
-        );
+            .text(locale(ctx.user.lang).getLink, 'getLink')
+            .row()
+            .url(
+                locale(ctx.user.lang).moreAboutLabel,
+                locale(ctx.user.lang).moreAboutUrl
+            );
 
-    await ctx.reply(locale(ctx.user.lang).welcomeMore, {
-        reply_markup: inlineKeyborad,
-    });
+        await ctx.reply(locale(ctx.user.lang).welcomeMore, {
+            reply_markup: inlineKeyborad,
+        });
     }
-
 }
 
 export async function generate(ctx: CommandContext<Context>) {
@@ -83,11 +82,10 @@ export async function help(ctx: CommandContext<Context>) {
 
 export async function adminPanel(ctx: Context) {
     const keyboard = new Keyboard().text(ROUTES.brodcast);
-    await ctx.reply("Админка", {
-        reply_markup: keyboard
+    await ctx.reply('Админка', {
+        reply_markup: keyboard,
     });
 }
-
 
 /** callbacks buttons */
 export async function onGeneratorMore(ctx: Context) {
@@ -143,10 +141,13 @@ export async function onGenerateQr(ctx: Context) {
 
 export async function onGetStoriesTemplates(ctx: Context) {
     await ctx.replyWithMediaGroup([
-        { type: 'photo', media: await assetsService.getImage('story.png') },
         {
             type: 'photo',
-            media: await assetsService.getImage('square-post.png'),
+            media: await assetsService.getStorageImage('story.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('square-post.png'),
         },
     ]);
 
@@ -164,6 +165,14 @@ export async function onGetStoriesTemplates(ctx: Context) {
     });
 }
 
+export async function onGenerateAvatar(ctx: Context) {
+    const userAvatarPath = await CommandsService.getUserAvatarPath(ctx);
+    if (!userAvatarPath) return;
+    const newAvatar = await assetsService.generateAvatar(userAvatarPath);
+    await ctx.replyWithPhoto(newAvatar);
+}
+
+// hears
 export async function onStartBroadcast(ctx: Context) {
     const testChatId = ctx.chat?.id;
 
@@ -177,12 +186,12 @@ export async function onStartBroadcast(ctx: Context) {
     }
 
     await ctx.reply(
-        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`, {
-            reply_markup: {remove_keyboard: true}
+        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`,
+        {
+            reply_markup: { remove_keyboard: true },
         }
     );
 }
-
 
 /** messages recived */
 export async function onMessage(ctx: Context) {

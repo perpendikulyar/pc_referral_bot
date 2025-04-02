@@ -2,7 +2,6 @@ import { Context, InputFile } from 'grammy';
 import * as QRCode from 'qrcode';
 
 export class QrCodeService {
-
     public async generate(ctx: Context, link: string) {
         try {
             const data = await QRCode.toBuffer(link, {
@@ -13,9 +12,9 @@ export class QrCodeService {
                 color: {
                     dark: '#333333',
                     light: '#E2E5EC',
-                    },
-                });
-    
+                },
+            });
+
             await ctx.replyWithPhoto(
                 new InputFile(new Uint8Array(data), 'qr-code.png')
             ),
