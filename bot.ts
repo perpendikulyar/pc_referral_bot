@@ -1,22 +1,28 @@
-import { Bot, GrammyError, HttpError } from 'grammy';
+import { Bot, Context, GrammyError, HttpError } from 'grammy';
+import { ConversationFlavor, conversations, createConversation } from "@grammyjs/conversations";
 
 import { botInstance } from './core/bot.instance';
 import { Router } from './core/router/router';
 import { loggerMiddleware } from './core/middlewares/looger.midleware';
 import { contextExtenderMiddleware } from './core/middlewares/context-extender.middleware';
 import { gaMidleware } from './core/middlewares/ga.midleware';
-import { BrodcastService } from './core/services/brodcast.service';
+import { brodcastMessage } from './core/services/brodcast.service';
 import { guardMiddleware } from './core/middlewares/guard.middlware';
+import { autoRetry } from '@grammyjs/auto-retry';
 
-const bot: Bot = botInstance;
+const bot: Bot<ConversationFlavor<Context>> = botInstance;
+bot.api.config.use(autoRetry());
+
 bot.use(
     contextExtenderMiddleware,
     loggerMiddleware,
     gaMidleware,
-    guardMiddleware
+    guardMiddleware,
+    conversations(),
+    createConversation(brodcastMessage)
 );
 const router: Router = new Router();
-const brodcastService = new BrodcastService();
+
 
 bot.catch((e) => {
     const ctx = e.ctx;

@@ -20,6 +20,8 @@
         "clean": "rm -rf dist"
     },
     "dependencies": {
+        "@grammyjs/auto-retry": "^2.0.2",
+        "@grammyjs/conversations": "^2.0.1",
         "@types/qrcode": "^1.5.5",
         "axios": "^1.8.1",
         "dotenv": "^16.4.5",

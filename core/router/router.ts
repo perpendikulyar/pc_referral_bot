@@ -1,13 +1,15 @@
-import { Bot, FilterQuery } from 'grammy';
+import { Bot, Context, FilterQuery } from 'grammy';
+import { ConversationFlavor } from '@grammyjs/conversations';
 
 import { applicationRoutes, Route } from './routes';
 import { botInstance } from '../bot.instance';
 import { ROUTES } from './routes.enum';
 
+
 export class Router {
     private static _instance: Router;
     private _routes: Route[] = [];
-    private _bot: Bot;
+    private _bot: Bot<ConversationFlavor<Context>>;
 
     constructor() {
         this._routes = applicationRoutes();
