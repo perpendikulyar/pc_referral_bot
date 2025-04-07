@@ -62,7 +62,7 @@ export class SheetService {
         }
     }
 
-    async getChatIds():Promise<number[] | undefined> {
+    async getChatIds(): Promise<number[] | undefined> {
         const sheet = await this.getSheet('logs');
         if (!sheet) {
             console.error(`SheetService: list with name 'logs' not found`);

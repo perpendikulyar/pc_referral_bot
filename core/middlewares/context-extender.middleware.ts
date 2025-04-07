@@ -20,7 +20,8 @@ export async function contextExtenderMiddleware(
     } else {
         const routes = applicationRoutes();
         const text = ctx.message?.text;
-        ctx.command = routes.find(e => e.command == text)?.command || 'message';
+        ctx.command =
+            routes.find((e) => e.command == text)?.command || 'message';
     }
 
     if (ctx.from) {

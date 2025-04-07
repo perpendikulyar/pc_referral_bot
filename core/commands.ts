@@ -20,8 +20,11 @@ export async function start(ctx: CommandContext<Context>) {
     if (ctx.source === 'apply_digest') {
         await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
         await CommandsService.generateKeyboard(ctx);
-    } if (ctx.source === 'avatar') {
-        await ctx.reply('Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!');
+    }
+    if (ctx.source === 'avatar') {
+        await ctx.reply(
+            'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!'
+        );
         await CommandsService.generateKeyboard(ctx);
     } else {
         await ctx.reply(locale(ctx.user.lang).welcome);
@@ -175,11 +178,11 @@ export async function onGenerateAvatar(ctx: Context) {
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('left.png'),
-        },        
+        },
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('right.png'),
-        },        
+        },
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('round.png'),
@@ -188,17 +191,15 @@ export async function onGenerateAvatar(ctx: Context) {
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-    .text('По центру', 'avatar-center')
-    .text('По кругу', 'avatar-round')
-    .row()
-    .text('Слева', 'avatar-left')
-    .text('Справа', 'avatar-right');
+        .text('По центру', 'avatar-center')
+        .text('По кругу', 'avatar-round')
+        .row()
+        .text('Слева', 'avatar-left')
+        .text('Справа', 'avatar-right');
 
-    await ctx.reply('Выбери, какой аватар тебе больше подходит',
-        {
-            reply_markup: inlineKeyborad
-        }
-    )
+    await ctx.reply('Выбери, какой аватар тебе больше подходит', {
+        reply_markup: inlineKeyborad,
+    });
 }
 
 export async function onCreateAvatar(ctx: Context) {
@@ -208,11 +209,11 @@ export async function onCreateAvatar(ctx: Context) {
         ctx.api.deleteMessage(
             ctx.callbackQuery?.message.chat.id,
             ctx.callbackQuery?.message.message_id
-        )
-    }   
+        );
+    }
 
     const data = ctx.callbackQuery?.data;
-    const type: AVATAR_TYPE = data?.split('-')[1] + '.png' as AVATAR_TYPE;
+    const type: AVATAR_TYPE = (data?.split('-')[1] + '.png') as AVATAR_TYPE;
     return createAvatar(ctx, type);
 }
 
@@ -221,15 +222,17 @@ async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
     if (!userAvatarPath) return;
     const newAvatar = await assetsService.generateAvatar(userAvatarPath, type);
     await ctx.replyWithPhoto(newAvatar);
-    await ctx.reply("Поставь себе новую классную аватарку, и не забудь добавить свою реферальную ссылку в профайл")
-} 
+    await ctx.reply(
+        'Поставь себе новую классную аватарку, и не забудь добавить свою реферальную ссылку в профайл'
+    );
+}
 
 // hears
 export async function onStartBroadcast(ctx: any) {
     // Для отправке только себе или по указанному списку
     // const chatIds: number [] = [ctx.chat?.id];
 
-    await ctx.conversation.enter("brodcastMessage");
+    await ctx.conversation.enter('brodcastMessage');
 }
 
 /** messages recived */

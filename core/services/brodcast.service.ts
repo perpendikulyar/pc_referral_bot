@@ -17,7 +17,7 @@ export async function brodcastMessage(
     if (message.text) {
         console.log(`brodcast starting...`);
         const sheetService = new SheetService();
-        const chatIds = args?.chatIds || await sheetService.getChatIds();
+        const chatIds = args?.chatIds || (await sheetService.getChatIds());
 
         if (!chatIds && !Array.isArray(chatIds)) {
             console.log('Subscribers not found');

@@ -5,7 +5,6 @@ import { applicationRoutes, Route } from './routes';
 import { botInstance } from '../bot.instance';
 import { ROUTES } from './routes.enum';
 
-
 export class Router {
     private static _instance: Router;
     private _routes: Route[] = [];

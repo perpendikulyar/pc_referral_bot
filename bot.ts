@@ -1,5 +1,9 @@
 import { Bot, Context, GrammyError, HttpError } from 'grammy';
-import { ConversationFlavor, conversations, createConversation } from "@grammyjs/conversations";
+import {
+    ConversationFlavor,
+    conversations,
+    createConversation,
+} from '@grammyjs/conversations';
 
 import { botInstance } from './core/bot.instance';
 import { Router } from './core/router/router';
@@ -22,7 +26,6 @@ bot.use(
     createConversation(brodcastMessage)
 );
 const router: Router = new Router();
-
 
 bot.catch((e) => {
     const ctx = e.ctx;
