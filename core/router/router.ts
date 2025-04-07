@@ -1,90 +1,95 @@
-import { Bot, Context, FilterQuery } from 'grammy';
-import { ConversationFlavor } from '@grammyjs/conversations';
+import { Composer, Context, FilterQuery, Middleware, MiddlewareFn, MiddlewareObj, NextFunction } from 'grammy';
 
 import { applicationRoutes, Route } from './routes';
-import { botInstance } from '../bot.instance';
-import { ROUTES } from './routes.enum';
 
-export class Router {
-    private static _instance: Router;
+type MaybePromise<T> = T | Promise<T>;
+
+export class Router <C extends Context> implements MiddlewareObj<C> {
     private _routes: Route[] = [];
-    private _bot: Bot<ConversationFlavor<Context>>;
 
-    constructor() {
+    public routeHandlers: Record<PropertyKey, Middleware<C>>;
+    private otherwiseHandler: Composer<C> | undefined;
+
+    constructor(
+        private readonly router: (
+            ctx: C
+        ) => MaybePromise<PropertyKey | undefined>, 
+        routeHandlers: 
+        | Record<PropertyKey, Middleware<C>>
+        | Map<PropertyKey, Middleware<C>> = {}
+    ) {
         this._routes = applicationRoutes();
-        this._bot = botInstance;
-        this.registerRoutes();
+        this.routeHandlers = routeHandlers instanceof Map
+        ? Object.fromEntries(routeHandlers.entries())
+        : { ...routeHandlers };
     }
 
-    public static get Instanse() {
-        return this._instance || new this();
+     private route(route: PropertyKey, ...middlewares: Array<Middleware<C>>) {
+        const composer = new Composer(...middlewares);
+        this.routeHandlers[route] = composer;
+        return composer;
     }
 
-    public registerRoutes() {
-        const commands = this._routes.filter((e) => e.type === 'command');
-        this.registerBotCommands(commands);
+    public otherwise(...middlewares: Array<Middleware<C>>) {
+        return this.otherwiseHandler = new Composer( ...middlewares );
+    }
 
-        commands.forEach((e) => {
-            this._bot.command(e.command, e.handler);
-        });
-
-        const callbacks = this._routes.filter((e) => e.type === 'callback');
-        callbacks.forEach((e) => {
-            this._bot.callbackQuery(e.command, e.handler);
-        });
-
-        const hears = this._routes.filter((e) => e.type === 'hears');
-        hears.forEach((e) => {
-            this._bot.hears(e.command, e.handler);
-        });
-
-        const specific = this._routes.filter((e) => e.type === 'specific');
-        specific.forEach((e) => {
-            this._bot.on(e.command as FilterQuery, e.handler);
-        });
+    public middleware(): MiddlewareFn<C> {
+        return new Composer<C>().route(
+            (ctx) => this.router(ctx),
+            this.routeHandlers,
+            this.otherwiseHandler,
+        ).middleware();
+    }
+    
+    public registerRoutes(routes: Array<Route>) {
+        routes.forEach(e => {
+            this.addRoute(e.command);
+        })
     }
 
     public addRoute(route: Route | string) {
         if (typeof route == 'string') {
-            const findRoute: Route = applicationRoutes().filter(
+            const findRoute: Route | undefined = applicationRoutes().find(
                 (e) => e.command === route
-            )[0];
-            this._routes.push(findRoute);
+            );
+            if (findRoute) {
+                this._routes.push(findRoute);
+                this.route(
+                    findRoute.command, 
+                    findRoute.guard 
+                        ? findRoute.guard 
+                        : async (ctx, next: NextFunction) =>  { await next() }, 
+                    findRoute.handler
+                );
+            } else {
+                console.error(`Route ${route} is not exist`);
+                return;
+            }
         } else {
             this._routes.push(route);
+            this.route(
+                route.command, 
+                route.guard 
+                    ? route.guard 
+                    : async (ctx, next: NextFunction) => { await next()}, 
+                route.handler
+            );
         }
-        this.registerRoutes();
-        return this._routes;
     }
 
     public addRoutes(_routes: Array<Route | string>) {
         _routes.forEach((e) => {
             this.addRoute(e);
         });
-        this.registerRoutes();
-        return this._routes;
     }
 
     public removeRoute(command: string) {
         this._routes = this._routes.filter((e) => e.command != command);
-        this.registerRoutes();
-        return this._routes;
+        this.registerRoutes(this._routes);
     }
 
     public get routes() {
         return this._routes;
-    }
-
-    public registerBotCommands(routes: Array<Route | string>) {
-        const result: Route[] = [];
-        routes.forEach((e) => {
-            if (typeof e === 'string') {
-                result.push(this._routes.filter((r) => r.command === e)[0]);
-            } else {
-                result.push(e);
-            }
-        });
-        const commands = result.filter((e) => e.allowedInMenu);
-        this._bot.api.setMyCommands(commands);
     }
 }

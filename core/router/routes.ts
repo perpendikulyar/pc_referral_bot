@@ -2,7 +2,7 @@ import { BotCommand } from 'grammy/types';
 
 import { ROUTES } from './routes.enum';
 import { locale } from '../localisations';
-import { CommandContext, Context } from 'grammy';
+import { CommandContext, Context, Middleware, MiddlewareFn } from 'grammy';
 import {
     adminPanel,
     generate,
@@ -21,10 +21,10 @@ import {
 import { isAdmin } from '../guards/isAdmin.guard';
 
 export interface Route extends BotCommand {
-    command: ROUTES;
+    command: ROUTES | string;
     type: 'command' | 'callback' | 'hears' | 'specific';
-    handler: (ctx: Context) => void;
-    guard?: (ctx: Context) => Promise<boolean>;
+    handler: Middleware<Context>;
+    guard?: MiddlewareFn<Context>;
     description: string;
     allowedInMenu?: boolean;
 }
