@@ -6,7 +6,6 @@ import { locale } from './localisations';
 import { SheetService } from './services/google_api/sheet.service';
 import { AssetsService, AVATAR_TYPE } from './services/assets.service';
 import { CommandsService } from './commands.service';
-import { BrodcastService } from './services/brodcast.service';
 import { ROUTES } from './router/routes.enum';
 import { QrCodeService } from './services/qr-code.service';
 
@@ -14,7 +13,6 @@ const sheetService = new SheetService();
 const assetsService = new AssetsService();
 const linkService = new LinkService();
 const qrCodeService = new QrCodeService();
-const brodcastService = new BrodcastService();
 
 export async function start(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
@@ -85,7 +83,7 @@ export async function help(ctx: CommandContext<Context>) {
 
 export async function adminPanel(ctx: Context) {
     const keyboard = new Keyboard().text(ROUTES.brodcast);
-    await ctx.reply('Админка', {
+    await ctx.reply('Это админка', {
         reply_markup: keyboard,
     });
 }
@@ -227,24 +225,11 @@ async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
 } 
 
 // hears
-export async function onStartBroadcast(ctx: Context) {
-    const testChatId = ctx.chat?.id;
+export async function onStartBroadcast(ctx: any) {
+    // Для отправке только себе или по указанному списку
+    // const chatIds: number [] = [ctx.chat?.id];
 
-    const result = await brodcastService.brodcastMessage(
-        'Привет! это текст рассылки, который мог бы быть отправлен всем почитателям этого бота',
-        testChatId
-    );
-    if (!result) {
-        console.log(`Brodcast failed`);
-        return;
-    }
-
-    await ctx.reply(
-        `Brodcast completely finished with result — delivered: ${result.success}, failed: ${result.errors}`,
-        {
-            reply_markup: { remove_keyboard: true },
-        }
-    );
+    await ctx.conversation.enter("brodcastMessage");
 }
 
 /** messages recived */
