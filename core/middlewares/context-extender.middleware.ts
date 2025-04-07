@@ -1,5 +1,6 @@
 import { Context, NextFunction } from 'grammy';
 import getConfig from '../config';
+import { applicationRoutes } from '../router/routes';
 
 const config = getConfig();
 
@@ -17,7 +18,9 @@ export async function contextExtenderMiddleware(
     } else if (ctx.callbackQuery) {
         ctx.command = ctx.callbackQuery.data;
     } else {
-        ctx.command = 'message';
+        const routes = applicationRoutes();
+        const text = ctx.message?.text;
+        ctx.command = routes.find(e => e.command == text)?.command || 'message';
     }
 
     if (ctx.from) {

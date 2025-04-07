@@ -8,7 +8,6 @@ import { AssetsService, AVATAR_TYPE } from './services/assets.service';
 import { CommandsService } from './commands.service';
 import { ROUTES } from './router/routes.enum';
 import { QrCodeService } from './services/qr-code.service';
-import { Conversation, ConversationFlavor } from '@grammyjs/conversations';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
@@ -227,9 +226,10 @@ async function createAvatar(ctx: Context, type: AVATAR_TYPE) {
 
 // hears
 export async function onStartBroadcast(ctx: any) {
-    const selfId = ctx.chat?.id;
+    // Для отправке только себе или по указанному списку
+    // const chatIds: number [] = [ctx.chat?.id];
 
-    await ctx.conversation.enter("brodcastMessage", {selfId});
+    await ctx.conversation.enter("brodcastMessage");
 }
 
 /** messages recived */

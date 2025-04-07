@@ -7,7 +7,7 @@ import { Message } from 'grammy/types';
 export async function brodcastMessage(
     conversation: Conversation,
     ctx: Context,
-    args?: { selfId: number }
+    args?: { chatIds: number[] }
 ) {
     await ctx.reply('Введите текст сообщения', {
         reply_markup: { remove_keyboard: true },
@@ -17,7 +17,7 @@ export async function brodcastMessage(
     if (message.text) {
         console.log(`brodcast starting...`);
         const sheetService = new SheetService();
-        const chatIds = await sheetService.getChatIds();
+        const chatIds = args?.chatIds || await sheetService.getChatIds();
 
         if (!chatIds && !Array.isArray(chatIds)) {
             console.log('Subscribers not found');
