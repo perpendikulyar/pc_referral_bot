@@ -7,12 +7,12 @@ export async function guardMiddleware(
 ): Promise<void> {
     const route = applicationRoutes().find((e) => e.command === ctx.command);
     if (route && route.guard) {
-        const validation = await route.guard(ctx);
+        const validation = await route.guard(ctx, next);
         if (validation) {
-            next();
+            await next();
         }
         return;
     } else {
-        next();
+        await next();
     }
 }
