@@ -1,4 +1,4 @@
-import { Context, InlineKeyboard } from 'grammy';
+import { Context, InlineKeyboard, Keyboard } from 'grammy';
 import { locale } from './localisations';
 import { UserProfilePhotos } from 'grammy/types';
 import { botInstance } from './bot.instance';
@@ -24,6 +24,22 @@ export class CommandsService {
             link_preview_options: { is_disabled: true },
         });
     }
+
+    public static appKeyboard(ctx: Context) {
+        const keyboard = new InlineKeyboard();
+        const lang = ctx.user.lang;
+
+        keyboard
+            .text('🔗 Моя ссылка', ROUTES.getLink)
+            .text('Сделать аватар кэмпа', ROUTES.generateAvatar)
+            .row()
+            .text(locale(lang).generatorMoreBtn, ROUTES.generatorMoreData)
+            .text('📦 Промо-материалы', ROUTES.promoMaterials)
+            .row()
+            .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl)
+
+        return keyboard;
+    } 
 
     public static async getUserAvatarPath(ctx: Context) {
         const userId = ctx.from?.id;

@@ -51,19 +51,13 @@ export async function generate(ctx: CommandContext<Context>) {
         link_preview_options: { is_disabled: true },
         reply_markup: { remove_keyboard: true },
     });
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
-        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
-        .row()
-        .url(
-            locale(ctx.user.lang).moreAboutLabel,
-            locale(ctx.user.lang).moreAboutUrl
-        );
+    const inlineKeyborad = CommandsService.appKeyboard(ctx);
+
     await ctx.reply(locale(ctx.user.lang).generatorExplain, {
         reply_markup: inlineKeyborad,
+        parse_mode: 'Markdown',
+        link_preview_options: { is_disabled: true },
     });
-
-    await CommandsService.generateKeyboard(ctx);
 }
 
 export async function help(ctx: CommandContext<Context>) {
@@ -95,13 +89,14 @@ export async function adminPanel(ctx: Context) {
 export async function onGeneratorMore(ctx: Context) {
     await ctx.reply(locale(ctx.user.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard().url(
-            locale(ctx.user.lang).moreAboutLabel,
-            locale(ctx.user.lang).moreAboutUrl
+        reply_markup: new InlineKeyboard().text(
+            '📦 Материалы для продвижения', ROUTES.promoMaterials
         ),
         link_preview_options: { is_disabled: true },
     });
+}
 
+export async function onPromoMaterials(ctx: Context) {
     await CommandsService.generateKeyboard(ctx);
 }
 
