@@ -8,6 +8,7 @@ import { AssetsService, AVATAR_TYPE } from './services/assets.service';
 import { CommandsService } from './commands.service';
 import { ROUTES } from './router/routes.enum';
 import { QrCodeService } from './services/qr-code.service';
+import { sendDidgest } from './services/digest.service';
 
 const sheetService = new SheetService();
 const assetsService = new AssetsService();
@@ -85,7 +86,7 @@ export async function help(ctx: CommandContext<Context>) {
 }
 
 export async function adminPanel(ctx: Context) {
-    const keyboard = new Keyboard().text(ROUTES.brodcast);
+    const keyboard = new Keyboard().text(ROUTES.brodcast).row().text(ROUTES.digest);
     await ctx.reply('Это админка', {
         reply_markup: keyboard,
     });
@@ -233,6 +234,10 @@ export async function onStartBroadcast(ctx: any) {
     // const chatIds: number [] = [ctx.chat?.id];
 
     await ctx.conversation.enter('brodcastMessage');
+}
+
+export async function onStartDidgest(ctx: Context) {
+    await sendDidgest(ctx);
 }
 
 /** messages recived */

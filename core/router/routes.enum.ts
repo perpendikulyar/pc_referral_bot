@@ -3,6 +3,7 @@ export enum ROUTES {
     help = 'help',
     generate = 'generate',
     brodcast = 'start_broadcast',
+    digest = 'start_didgest',
     adminPanel = 'admin_panel',
     generatorMoreData = 'generatorMoreData',
     getLink = 'getLink',

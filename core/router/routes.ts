@@ -16,6 +16,7 @@ import {
     onGetStoriesTemplates,
     onMessage,
     onStartBroadcast,
+    onStartDidgest,
     start,
 } from '../commands';
 import { isAdmin } from '../guards/isAdmin.guard';
@@ -124,6 +125,13 @@ export const applicationRoutes = (): Route[] => {
             description: 'start broadcast',
             handler: onStartBroadcast,
             guard: isAdmin,
+        },
+        {
+            command: ROUTES.digest,
+            type: 'hears',
+            description: 'start digest',
+            handler: onStartDidgest,
+            guard: isAdmin
         },
         {
             command: ROUTES.message,

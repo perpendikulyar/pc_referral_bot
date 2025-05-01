@@ -7,6 +7,17 @@ import { AuthService } from './auth.service';
 import getConfig from '../../config';
 import { DTO } from '../../dto/dto';
 
+export interface IDigestRecord {
+    username?: string,
+    offline?: number,
+    online?: number,
+    total?: number,
+    gamePoints?: number,
+    isAmbassador?: boolean,
+    chatId?: number,
+}
+
+
 export class SheetService {
     private doc: GoogleSpreadsheet;
 
@@ -108,5 +119,32 @@ export class SheetService {
             p4[Math.floor(Math.random() * p4.length)] +
             '\n'
         );
+    }
+
+    async getDidgestData(): Promise<IDigestRecord[] | undefined> {
+        const sheet = await this.getSheet('digest_sorted');
+
+        if (!sheet) {
+            console.error(`SheetService: list with name 'digest_sorted' not found`);
+            return;
+        }
+
+        const rows = await sheet.getRows<IDigestRecord>();
+
+        const data: IDigestRecord[] = [];
+
+        rows.map(e => {
+            data.push({
+                username: e.get('username') || "",
+                offline: parseInt(e.get('offline') || 0),
+                online: parseInt(e.get('online') || 0),
+                total: parseInt(e.get('total')),
+                gamePoints: parseInt(e.get('gamePoints')),
+                isAmbassador: ( e.get('isAmbassador') == 'TRUE') ? true : false,
+                chatId: parseInt(e.get('chatId'))
+            })
+        });
+
+        return data;
     }
 }
