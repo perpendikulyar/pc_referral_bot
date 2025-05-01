@@ -15,6 +15,7 @@ import {
     onGetLink,
     onGetStoriesTemplates,
     onMessage,
+    onPromoMaterials,
     onStartBroadcast,
     start,
 } from '../commands';
@@ -63,6 +64,12 @@ export const applicationRoutes = (): Route[] => {
             type: 'callback',
             description: '',
             handler: onGeneratorMore,
+        },
+        {
+            command: ROUTES.promoMaterials,
+            type: 'callback',
+            description: '',
+            handler: onPromoMaterials
         },
         {
             command: ROUTES.getLink,

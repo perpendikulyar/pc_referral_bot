@@ -15,4 +15,5 @@ export enum ROUTES {
     avatarLeft = 'avatar-left',
     avatarRight = 'avatar-right',
     message = 'message',
+    promoMaterials = 'promoMaterials'
 }
