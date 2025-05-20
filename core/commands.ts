@@ -16,48 +16,57 @@ const qrCodeService = new QrCodeService();
 
 export async function start(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
-
-    if (ctx.source === 'apply_digest') {
-        await ctx.reply('Теперь ты будешь получать еженедельный дайджест');
-        await CommandsService.generateKeyboard(ctx);
-    }
     if (ctx.source === 'avatar') {
         await ctx.reply(
             'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!'
         );
         await CommandsService.generateKeyboard(ctx);
     } else {
-        await ctx.reply(locale(ctx.user.lang).welcome);
+        const inlineKeyborad = new InlineKeyboard();
         inlineKeyborad
-            .text(locale(ctx.user.lang).getLink, 'getLink')
+            .text('Результаты', ROUTES.results)
             .row()
-            .url(
-                locale(ctx.user.lang).moreAboutLabel,
-                locale(ctx.user.lang).moreAboutUrl
-            );
+            .text('Сделать аватар кэмпа', ROUTES.generateAvatar)
 
-        await ctx.reply(locale(ctx.user.lang).welcomeMore, {
-            reply_markup: inlineKeyborad,
-        });
+
+        await ctx.reply(`Привет! Это бот для участия в реферальной программе ProductCamp Spring 2025!\n\n
+На данный момент программа уже закрыта и подведены финальные итоги, посмотреть их можно с посмощью команды /results.\n\n
+Реферальная программа летнего кэмпа уже скоро стартует, мы сообщим об этом уведомлением в этом боте!
+            `,
+            {
+                reply_markup: inlineKeyborad,
+                parse_mode: 'Markdown',
+                link_preview_options: { is_disabled: true },
+            }
+        );
     }
 }
 
 export async function generate(ctx: CommandContext<Context>) {
-    const user = ctx.from;
-    const name = user?.username || 'guest';
-    const url = await linkService.getUrl(name);
-    UserLink.createAndSave(name, url);
-    await ctx.reply(`${url}`, {
-        link_preview_options: { is_disabled: true },
-        reply_markup: { remove_keyboard: true },
-    });
-    const inlineKeyborad = CommandsService.appKeyboard(ctx);
+    // const user = ctx.from;
+    // const name = user?.username || 'guest';
+    // const url = await linkService.getUrl(name);
+    // UserLink.createAndSave(name, url);
+    // await ctx.reply(`${url}`, {
+    //     link_preview_options: { is_disabled: true },
+    //     reply_markup: { remove_keyboard: true },
+    // });
+    // const inlineKeyborad = CommandsService.appKeyboard(ctx);
 
-    await ctx.reply(locale(ctx.user.lang).generatorExplain, {
-        reply_markup: inlineKeyborad,
-        parse_mode: 'Markdown',
-        link_preview_options: { is_disabled: true },
-    });
+    // await ctx.reply(locale(ctx.user.lang).generatorExplain, {
+    //     reply_markup: inlineKeyborad,
+    //     parse_mode: 'Markdown',
+    //     link_preview_options: { is_disabled: true },
+    // });
+
+    await ctx.reply(`Получить ссылку не получится 😟\n
+На данный момент программа уже закрыта и подведены финальные итоги, посмотреть их можно с посмощью команды /results.\n
+Реферальная программа летнего кэмпа уже скоро стартует, мы сообщим об этом уведомлением в этом боте!`)
+}
+
+export async function results(ctx: CommandContext<Context>) {
+    await ctx.replyWithPhoto(await assetsService.getStorageImage('s25-results.png'));
+    await ctx.reply(locale('ru').results, {parse_mode: 'Markdown'});
 }
 
 export async function help(ctx: CommandContext<Context>) {

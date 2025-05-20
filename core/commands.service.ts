@@ -11,12 +11,12 @@ export class CommandsService {
         const lang = ctx.user.lang;
         inlineKeyborad
             .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
-            .row()
-            .text(locale(lang).getInvite, 'getInvite')
-            .row()
-            .text(locale(lang).stories, 'getStories')
-            .row()
-            .text(locale(lang).getQr, 'generateQr');
+            //.row()
+            //.text(locale(lang).getInvite, 'getInvite')
+            //.row()
+            //.text(locale(lang).stories, 'getStories')
+            //.row()
+            //.text(locale(lang).getQr, 'generateQr');
 
         await ctx.reply(locale(lang).genKeyboard, {
             parse_mode: 'Markdown',

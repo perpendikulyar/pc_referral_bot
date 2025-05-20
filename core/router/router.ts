@@ -1,4 +1,4 @@
-import { Composer, Context, FilterQuery, Middleware, MiddlewareFn, MiddlewareObj, NextFunction } from 'grammy';
+import { Composer, Context, Middleware, MiddlewareFn, MiddlewareObj, NextFunction } from 'grammy';
 
 import { applicationRoutes, Route } from './routes';
 
