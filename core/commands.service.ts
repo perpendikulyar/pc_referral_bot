@@ -10,13 +10,13 @@ export class CommandsService {
         const inlineKeyborad = new InlineKeyboard();
         const lang = ctx.user.lang;
         inlineKeyborad
-            .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
+            //.text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
             //.row()
             //.text(locale(lang).getInvite, 'getInvite')
             //.row()
             //.text(locale(lang).stories, 'getStories')
             //.row()
-            //.text(locale(lang).getQr, 'generateQr');
+            .text(locale(lang).getQr, 'generateQr');
 
         await ctx.reply(locale(lang).genKeyboard, {
             parse_mode: 'Markdown',
@@ -31,7 +31,7 @@ export class CommandsService {
 
         keyboard
             .text('🔗 Моя ссылка', ROUTES.getLink)
-            .text('Сделать аватар кэмпа', ROUTES.generateAvatar)
+            //.text('Сделать аватар кэмпа', ROUTES.generateAvatar)
             .row()
             .text(locale(lang).generatorMoreBtn, ROUTES.generatorMoreData)
             .text('📦 Промо-материалы', ROUTES.promoMaterials)
