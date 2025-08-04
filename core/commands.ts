@@ -24,15 +24,13 @@ export async function start(ctx: CommandContext<Context>) {
     } else {
         const inlineKeyborad = new InlineKeyboard();
         inlineKeyborad
-            .text('Результаты', ROUTES.results)
+            .text(locale('ru').getLink, ROUTES.getLink)
             .row()
-            .text('Сделать аватар кэмпа', ROUTES.generateAvatar)
+            .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl)
 
 
-        await ctx.reply(`Привет! Это бот для участия в реферальной программе ProductCamp Spring 2025!\n\n
-На данный момент программа уже закрыта, и подведены финальные итоги — посмотреть их можно с посмощью команды /results.\n\n
-Реферальная программа летнего кэмпа уже скоро стартует, мы сообщим об этом уведомлением в этом боте!
-            `,
+        await ctx.reply(
+            locale('ru').welcome,
             {
                 reply_markup: inlineKeyborad,
                 parse_mode: 'Markdown',
@@ -43,25 +41,21 @@ export async function start(ctx: CommandContext<Context>) {
 }
 
 export async function generate(ctx: CommandContext<Context>) {
-    // const user = ctx.from;
-    // const name = user?.username || 'guest';
-    // const url = await linkService.getUrl(name);
-    // UserLink.createAndSave(name, url);
-    // await ctx.reply(`${url}`, {
-    //     link_preview_options: { is_disabled: true },
-    //     reply_markup: { remove_keyboard: true },
-    // });
-    // const inlineKeyborad = CommandsService.appKeyboard(ctx);
+    const user = ctx.from;
+    const name = user?.username || 'guest';
+    const url = await linkService.getUrl(name);
+    UserLink.createAndSave(name, url);
+    await ctx.reply(`${url}`, {
+        link_preview_options: { is_disabled: true },
+        reply_markup: { remove_keyboard: true },
+    });
+    const inlineKeyborad = CommandsService.appKeyboard(ctx);
 
-    // await ctx.reply(locale(ctx.user.lang).generatorExplain, {
-    //     reply_markup: inlineKeyborad,
-    //     parse_mode: 'Markdown',
-    //     link_preview_options: { is_disabled: true },
-    // });
-
-    await ctx.reply(`Получить ссылку не получится 😟\n
-На данный момент программа уже закрыта, и подведены финальные итоги — посмотреть их можно с посмощью команды /results.\n
-Реферальная программа летнего кэмпа уже скоро стартует, мы сообщим об этом уведомлением в этом боте!`)
+    await ctx.reply(locale(ctx.user.lang).generatorExplain, {
+        reply_markup: inlineKeyborad,
+        parse_mode: 'Markdown',
+        link_preview_options: { is_disabled: true },
+    });
 }
 
 export async function results(ctx: CommandContext<Context>) {
