@@ -20,7 +20,7 @@ export async function start(ctx: CommandContext<Context>) {
         await ctx.reply(
             'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!'
         );
-        await CommandsService.generateKeyboard(ctx);
+        await onGenerateAvatar(ctx);
     } else {
         const inlineKeyborad = new InlineKeyboard();
         inlineKeyborad
