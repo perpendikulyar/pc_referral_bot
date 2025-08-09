@@ -175,22 +175,22 @@ export async function onGenerateAvatar(ctx: Context) {
         },
         {
             type: 'photo',
+            media: await assetsService.getAvatarImage('round.png'),
+        },
+        {
+            type: 'photo',
             media: await assetsService.getAvatarImage('left.png'),
         },
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('right.png'),
-        },
-        {
-            type: 'photo',
-            media: await assetsService.getAvatarImage('round.png'),
-        },
+        }
     ]);
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
         .text('По центру', 'avatar-center')
-        .text('По кругу', 'avatar-round')
+        .text('Наискосок', 'avatar-round')
         .row()
         .text('Слева', 'avatar-left')
         .text('Справа', 'avatar-right');
