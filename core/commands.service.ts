@@ -10,8 +10,8 @@ export class CommandsService {
         const inlineKeyborad = new InlineKeyboard();
         const lang = ctx.user.lang;
         inlineKeyborad
-            //.text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
-            //.row()
+            .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
+            .row()
             //.text(locale(lang).getInvite, 'getInvite')
             //.row()
             //.text(locale(lang).stories, 'getStories')
@@ -31,7 +31,7 @@ export class CommandsService {
 
         keyboard
             .text('🔗 Моя ссылка', ROUTES.getLink)
-            //.text('Сделать аватар кэмпа', ROUTES.generateAvatar)
+            .text('Сделать аватар кэмпа', ROUTES.generateAvatar)
             .row()
             .text(locale(lang).generatorMoreBtn, ROUTES.generatorMoreData)
             .text('📦 Промо-материалы', ROUTES.promoMaterials)
