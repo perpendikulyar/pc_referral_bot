@@ -74,12 +74,12 @@ export const applicationRoutes = (): Route[] => {
             description: '',
             handler: commands.onGenerateQr,
         },
-        // {
-        //     command: ROUTES.getStories,
-        //     type: 'callback',
-        //     description: '',
-        //     handler: commands.onGetStoriesTemplates,
-        // },
+        {
+            command: ROUTES.getStories,
+            type: 'callback',
+            description: '',
+            handler: commands.onGetStoriesTemplates,
+        },
         {
             command: ROUTES.generateAvatar,
             type: 'callback',
