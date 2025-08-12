@@ -14,8 +14,8 @@ export class CommandsService {
             .row()
             //.text(locale(lang).getInvite, 'getInvite')
             //.row()
-            //.text(locale(lang).stories, 'getStories')
-            //.row()
+            .text(locale(lang).stories, 'getStories')
+            .row()
             .text(locale(lang).getQr, 'generateQr');
 
         await ctx.reply(locale(lang).genKeyboard, {
