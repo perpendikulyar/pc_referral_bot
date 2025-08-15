@@ -151,6 +151,14 @@ export async function onGetStoriesTemplates(ctx: Context) {
             type: 'photo',
             media: await assetsService.getStorageImage('bright-story.png'),
         },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('dark-sq.png'),
+        },
+                {
+            type: 'photo',
+            media: await assetsService.getStorageImage('bright-sq.png'),
+        },
     ]);
 
     // const inlineKeyborad = new InlineKeyboard();
@@ -187,11 +195,11 @@ export async function onGenerateAvatar(ctx: Context) {
 
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text('По центру', 'avatar-center')
-        .text('Наискосок', 'avatar-round')
+        .text('1', 'avatar-center')
+        .text('2', 'avatar-round')
         .row()
-        .text('Слева', 'avatar-left')
-        .text('Справа', 'avatar-right');
+        .text('3', 'avatar-left')
+        .text('4', 'avatar-right');
 
     await ctx.reply('Выбери, какой аватар тебе больше подходит', {
         reply_markup: inlineKeyborad,
