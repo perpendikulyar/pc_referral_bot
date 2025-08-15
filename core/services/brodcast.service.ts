@@ -58,7 +58,7 @@ async function sendMessage(
     for (const chatId of chatIds) {
         try {
             // Не отправляем себе
-            if (chatId == ctx.chat?.id) {
+            if (chatId != ctx.chat?.id) {
                 await ctx.api.sendMessage(chatId, message.text || '', {
                     link_preview_options: { is_disabled: true },
                     entities: message.entities,
