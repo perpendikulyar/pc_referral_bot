@@ -2,7 +2,6 @@ import { Context } from 'grammy';
 import { Conversation } from '@grammyjs/conversations';
 
 import { SheetService } from './google_api/sheet.service';
-import { Message } from 'grammy/types';
 
 export async function brodcastMessage(
     conversation: Conversation,
@@ -13,20 +12,22 @@ export async function brodcastMessage(
         reply_markup: { remove_keyboard: true },
     });
 
-    const { message } = await conversation.waitFor('message:text');
-    if (message.text) {
+    const conCtx = await conversation.wait()
+
+    console.log(conCtx);
+
+    if (conCtx) {
         console.log(`brodcast starting...`);
         const sheetService = new SheetService();
         const chatIds = args?.chatIds || (await sheetService.getChatIds());
-
-        if (!chatIds && !Array.isArray(chatIds)) {
+            if (!chatIds && !Array.isArray(chatIds)) {
             console.log('Subscribers not found');
             await ctx.reply('Подписчики не найдены');
             return;
         }
 
-        const { success, errors } = await sendMessage(ctx, chatIds, message);
-
+        const { success, errors } = await sendMessage(ctx, chatIds, conCtx);
+        
         console.log(
             `Brodcast sent to ${chatIds.length}, delivered: ${success}, failed: ${errors}`
         );
@@ -46,23 +47,48 @@ export async function brodcastMessage(
 async function sendMessage(
     ctx: Context,
     chatIds: number[],
-    message: Message
+    conCtx: Context
 ): Promise<{ success: number; errors: number }> {
     let success = 0;
     let errors = 0;
+    let fileId = '';
+    let messageText = '';
 
-    if (!message.text) {
+    if (!conCtx.message) {
         return { success, errors };
     }
+
+    if (conCtx.message.text === "cancel") {
+        await ctx.reply("Операция отменена");
+        return { success, errors };
+    }
+
+    messageText = conCtx.message.text ?? '';
+
+    if (conCtx.message.photo) {
+        fileId = conCtx.message.photo[0].file_id;
+        messageText = conCtx.message.caption || '';
+    }
+
+    chatIds = [257180579, 362318532, 349647477];
+
+    console.log(`fileId: ${fileId}, 'text: ${messageText}`);
 
     for (const chatId of chatIds) {
         try {
             // Не отправляем себе
             if (chatId != ctx.chat?.id) {
-                await ctx.api.sendMessage(chatId, message.text || '', {
-                    link_preview_options: { is_disabled: true },
-                    entities: message.entities,
-                });
+                if (fileId) {
+                    await ctx.api.sendPhoto(chatId, fileId, {
+                        caption: messageText,
+                        parse_mode: 'HTML'
+                    });
+                } else {
+                    await ctx.api.sendMessage(chatId, messageText, {
+                        link_preview_options: { is_disabled: true },
+                        entities: conCtx.message.entities,
+                    });
+                }
                 success++;
             } else {
                 errors++;
