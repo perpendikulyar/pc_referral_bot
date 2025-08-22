@@ -70,7 +70,7 @@ async function sendMessage(
         messageText = conCtx.message.caption || '';
     }
 
-    chatIds = [257180579, 362318532, 349647477];
+    //chatIds = [257180579, 362318532, 349647477];
 
     console.log(`fileId: ${fileId}, 'text: ${messageText}`);
 
