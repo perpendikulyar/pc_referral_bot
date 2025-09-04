@@ -3,7 +3,10 @@ import { AssetsService } from '../services/assets.service';
 
 const asstetService = new AssetsService();
 
-export async function isAdmin(ctx: Context, next: NextFunction): Promise<boolean> {
+export async function isAdmin(
+    ctx: Context,
+    next: NextFunction
+): Promise<boolean> {
     if (!ctx.user.isAdmin) {
         await ctx.replyWithPhoto(
             await asstetService.getStorageImage('admin-guard.jpg')

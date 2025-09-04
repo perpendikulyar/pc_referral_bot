@@ -12,8 +12,8 @@ export class CommandsService {
         inlineKeyborad
             .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
             .row()
-            //.text(locale(lang).getInvite, 'getInvite')
-            //.row()
+            .text(locale(lang).getInvite, 'getInvite')
+            .row()
             .text(locale(lang).stories, 'getStories')
             .row()
             .text(locale(lang).getQr, 'generateQr');
@@ -36,10 +36,10 @@ export class CommandsService {
             .text(locale(lang).generatorMoreBtn, ROUTES.generatorMoreData)
             .text('📦 Промо-материалы', ROUTES.promoMaterials)
             .row()
-            .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl)
+            .url(locale(lang).moreAboutLabel, locale(lang).moreAboutUrl);
 
         return keyboard;
-    } 
+    }
 
     public static async getUserAvatarPath(ctx: Context) {
         const userId = ctx.from?.id;

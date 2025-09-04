@@ -12,7 +12,7 @@ export async function brodcastMessage(
         reply_markup: { remove_keyboard: true },
     });
 
-    const conCtx = await conversation.wait()
+    const conCtx = await conversation.wait();
 
     console.log(conCtx);
 
@@ -20,14 +20,14 @@ export async function brodcastMessage(
         console.log(`brodcast starting...`);
         const sheetService = new SheetService();
         const chatIds = args?.chatIds || (await sheetService.getChatIds());
-            if (!chatIds && !Array.isArray(chatIds)) {
+        if (!chatIds && !Array.isArray(chatIds)) {
             console.log('Subscribers not found');
             await ctx.reply('Подписчики не найдены');
             return;
         }
 
         const { success, errors } = await sendMessage(ctx, chatIds, conCtx);
-        
+
         console.log(
             `Brodcast sent to ${chatIds.length}, delivered: ${success}, failed: ${errors}`
         );
@@ -58,8 +58,8 @@ async function sendMessage(
         return { success, errors };
     }
 
-    if (conCtx.message.text === "cancel") {
-        await ctx.reply("Операция отменена");
+    if (conCtx.message.text === 'cancel') {
+        await ctx.reply('Операция отменена');
         return { success, errors };
     }
 
@@ -81,7 +81,7 @@ async function sendMessage(
                 if (fileId) {
                     await ctx.api.sendPhoto(chatId, fileId, {
                         caption: messageText,
-                        parse_mode: 'HTML'
+                        parse_mode: 'HTML',
                     });
                 } else {
                     await ctx.api.sendMessage(chatId, messageText, {

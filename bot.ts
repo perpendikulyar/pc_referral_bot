@@ -28,7 +28,7 @@ bot.use(
     gaMidleware,
     conversations(),
     createConversation(brodcastMessage),
-    router,
+    router
 );
 
 bot.catch((e) => {
