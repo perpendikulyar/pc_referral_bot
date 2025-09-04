@@ -84,7 +84,7 @@ export class SheetService {
             return;
         }
 
-        const rows = await sheet.getRows({ limit: 25 });
+        const rows = await sheet.getRows({ limit: 30 });
 
         let p1: string[] = [];
         let p2: string[] = [];

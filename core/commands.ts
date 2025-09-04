@@ -26,17 +26,13 @@ export async function start(ctx: CommandContext<Context>) {
         inlineKeyborad
             .text(locale('ru').getLink, ROUTES.getLink)
             .row()
-            .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl)
+            .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl);
 
-
-        await ctx.reply(
-            locale('ru').welcome,
-            {
-                reply_markup: inlineKeyborad,
-                parse_mode: 'Markdown',
-                link_preview_options: { is_disabled: true },
-            }
-        );
+        await ctx.reply(locale('ru').welcome, {
+            reply_markup: inlineKeyborad,
+            parse_mode: 'Markdown',
+            link_preview_options: { is_disabled: true },
+        });
     }
 }
 
@@ -59,8 +55,10 @@ export async function generate(ctx: CommandContext<Context>) {
 }
 
 export async function results(ctx: CommandContext<Context>) {
-    await ctx.replyWithPhoto(await assetsService.getStorageImage('s25-results.png'));
-    await ctx.reply(locale('ru').results, {parse_mode: 'Markdown'});
+    await ctx.replyWithPhoto(
+        await assetsService.getStorageImage('s25-results.png')
+    );
+    await ctx.reply(locale('ru').results, { parse_mode: 'Markdown' });
 }
 
 export async function help(ctx: CommandContext<Context>) {
@@ -93,7 +91,8 @@ export async function onGeneratorMore(ctx: Context) {
     await ctx.reply(locale(ctx.user.lang).generatorExplainMore, {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard().text(
-            '📦 Материалы для продвижения', ROUTES.promoMaterials
+            '📦 Материалы для продвижения',
+            ROUTES.promoMaterials
         ),
         link_preview_options: { is_disabled: true },
     });
@@ -145,6 +144,10 @@ export async function onGetStoriesTemplates(ctx: Context) {
     await ctx.replyWithMediaGroup([
         {
             type: 'photo',
+            media: await assetsService.getStorageImage('astro.png'),
+        },
+        {
+            type: 'photo',
             media: await assetsService.getStorageImage('dark-story.png'),
         },
         {
@@ -155,7 +158,7 @@ export async function onGetStoriesTemplates(ctx: Context) {
             type: 'photo',
             media: await assetsService.getStorageImage('dark-sq.png'),
         },
-                {
+        {
             type: 'photo',
             media: await assetsService.getStorageImage('bright-sq.png'),
         },
@@ -190,7 +193,7 @@ export async function onGenerateAvatar(ctx: Context) {
         {
             type: 'photo',
             media: await assetsService.getAvatarImage('right.png'),
-        }
+        },
     ]);
 
     const inlineKeyborad = new InlineKeyboard();

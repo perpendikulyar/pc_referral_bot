@@ -20,27 +20,31 @@ export const applicationRoutes = (): Route[] => {
         {
             command: ROUTES.start,
             type: 'command',
-            handler: async (ctx) => commands.start(ctx as CommandContext<Context>),
+            handler: async (ctx) =>
+                commands.start(ctx as CommandContext<Context>),
             description: 'start',
         },
         {
             command: ROUTES.generate,
             type: 'command',
-            handler: async (ctx) => commands.generate(ctx as CommandContext<Context>),
+            handler: async (ctx) =>
+                commands.generate(ctx as CommandContext<Context>),
             description: locale('en').cmdGenerate,
             allowedInMenu: true,
         },
         {
             command: ROUTES.help,
             type: 'command',
-            handler: async (ctx) => commands.help(ctx as CommandContext<Context>),
+            handler: async (ctx) =>
+                commands.help(ctx as CommandContext<Context>),
             description: locale('en').cmdHelp,
             allowedInMenu: true,
         },
         {
             command: ROUTES.adminPanel,
             type: 'command',
-            handler: async (ctx) => commands.adminPanel(ctx as CommandContext<Context>),
+            handler: async (ctx) =>
+                commands.adminPanel(ctx as CommandContext<Context>),
             description: 'Admin',
             guard: isAdmin,
         },
@@ -54,7 +58,7 @@ export const applicationRoutes = (): Route[] => {
             command: ROUTES.promoMaterials,
             type: 'callback',
             description: '',
-            handler: commands.onPromoMaterials
+            handler: commands.onPromoMaterials,
         },
         {
             command: ROUTES.getLink,
@@ -62,12 +66,12 @@ export const applicationRoutes = (): Route[] => {
             description: '',
             handler: commands.onGetLink,
         },
-        // {
-        //     command: ROUTES.getInvite,
-        //     type: 'callback',
-        //     description: '',
-        //     handler: commands.onGetInvite,
-        // },
+        {
+            command: ROUTES.getInvite,
+            type: 'callback',
+            description: '',
+            handler: commands.onGetInvite,
+        },
         {
             command: ROUTES.generateQr,
             type: 'callback',
