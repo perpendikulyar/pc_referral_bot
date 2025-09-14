@@ -162,6 +162,14 @@ export async function onGetStoriesTemplates(ctx: Context) {
             type: 'photo',
             media: await assetsService.getStorageImage('bright-sq.png'),
         },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('planet.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('sins.png'),
+        },
     ]);
 
     // const inlineKeyborad = new InlineKeyboard();
