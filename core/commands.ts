@@ -24,7 +24,7 @@ export async function start(ctx: CommandContext<Context>) {
     } else {
         const inlineKeyborad = new InlineKeyboard();
         inlineKeyborad
-            .text(locale('ru').getLink, ROUTES.getLink)
+            .text('Результаты', ROUTES.results)
             .row()
             .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl);
 
@@ -56,7 +56,7 @@ export async function generate(ctx: CommandContext<Context>) {
 
 export async function results(ctx: CommandContext<Context>) {
     await ctx.replyWithPhoto(
-        await assetsService.getStorageImage('s25-results.png')
+        await assetsService.getStorageImage('a25-results.png')
     );
     await ctx.reply(locale('ru').results, { parse_mode: 'Markdown' });
 }
@@ -64,8 +64,8 @@ export async function results(ctx: CommandContext<Context>) {
 export async function help(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        .text(locale(ctx.user.lang).getLink, 'getLink')
-        .row()
+        // .text(locale(ctx.user.lang).getLink, 'getLink')
+        // .row()
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
         .url(

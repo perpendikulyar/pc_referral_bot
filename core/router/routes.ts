@@ -24,14 +24,14 @@ export const applicationRoutes = (): Route[] => {
                 commands.start(ctx as CommandContext<Context>),
             description: 'start',
         },
-        {
-            command: ROUTES.generate,
-            type: 'command',
-            handler: async (ctx) =>
-                commands.generate(ctx as CommandContext<Context>),
-            description: locale('en').cmdGenerate,
-            allowedInMenu: true,
-        },
+        // {
+        //     command: ROUTES.generate,
+        //     type: 'command',
+        //     handler: async (ctx) =>
+        //         commands.generate(ctx as CommandContext<Context>),
+        //     description: locale('en').cmdGenerate,
+        //     allowedInMenu: true,
+        // },
         {
             command: ROUTES.help,
             type: 'command',
@@ -60,24 +60,24 @@ export const applicationRoutes = (): Route[] => {
             description: '',
             handler: commands.onPromoMaterials,
         },
-        {
-            command: ROUTES.getLink,
-            type: 'callback',
-            description: '',
-            handler: commands.onGetLink,
-        },
-        {
-            command: ROUTES.getInvite,
-            type: 'callback',
-            description: '',
-            handler: commands.onGetInvite,
-        },
-        {
-            command: ROUTES.generateQr,
-            type: 'callback',
-            description: '',
-            handler: commands.onGenerateQr,
-        },
+        // {
+        //     command: ROUTES.getLink,
+        //     type: 'callback',
+        //     description: '',
+        //     handler: commands.onGetLink,
+        // },
+        // {
+        //     command: ROUTES.getInvite,
+        //     type: 'callback',
+        //     description: '',
+        //     handler: commands.onGetInvite,
+        // },
+        // {
+        //     command: ROUTES.generateQr,
+        //     type: 'callback',
+        //     description: '',
+        //     handler: commands.onGenerateQr,
+        // },
         {
             command: ROUTES.getStories,
             type: 'callback',
@@ -114,13 +114,13 @@ export const applicationRoutes = (): Route[] => {
             description: '',
             handler: commands.onCreateAvatar,
         },
-        // {
-        //     command: ROUTES.results,
-        //     type: 'command',
-        //     description: 'Results',
-        //     handler: async (ctx) => commands.results(ctx as CommandContext<Context>),
-        //     allowedInMenu: true,
-        // },
+        {
+            command: ROUTES.results,
+            type: 'command',
+            description: 'Results',
+            handler: async (ctx) => commands.results(ctx as CommandContext<Context>),
+            allowedInMenu: true,
+        },
         {
             command: ROUTES.brodcast,
             type: 'hears',
