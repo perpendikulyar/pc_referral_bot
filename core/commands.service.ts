@@ -51,16 +51,22 @@ export class CommandsService {
             const profileAvatars: UserProfilePhotos =
                 await ctx.api.getUserProfilePhotos(userId);
 
-            if (!profileAvatars.photos.length || !profileAvatars.photos[0].length) {
+            if (
+                !profileAvatars.photos.length ||
+                !profileAvatars.photos[0].length
+            ) {
                 await ctx.reply('У вас нет аватара в Telegram!');
                 return;
             }
 
             const photoSizes = profileAvatars.photos[0];
-            const avatarPhoto = photoSizes[photoSizes.length - 1] ?? photoSizes[0];
+            const avatarPhoto =
+                photoSizes[photoSizes.length - 1] ?? photoSizes[0];
 
             if (!avatarPhoto?.file_id) {
-                await ctx.reply('Не удалось получить ваш аватар. Попробуйте снова.');
+                await ctx.reply(
+                    'Не удалось получить ваш аватар. Попробуйте снова.'
+                );
                 return;
             }
 
