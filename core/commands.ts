@@ -40,7 +40,7 @@ export async function generate(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
     const url = await linkService.getUrl(name);
-    UserLink.createAndSave(name, url);
+    await UserLink.createAndSave(name, url);
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
         reply_markup: { remove_keyboard: true },
@@ -172,14 +172,14 @@ export async function onGetStoriesTemplates(ctx: Context) {
         },
     ]);
 
-    // const inlineKeyborad = new InlineKeyboard();
-    // inlineKeyborad
-    //     .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
-    //     .row()
-    //     .url(
-    //         locale(ctx.user.lang).moreAboutLabel,
-    //         locale(ctx.user.lang).moreAboutUrl
-    //     );
+    const inlineKeyborad = new InlineKeyboard();
+    inlineKeyborad
+        .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
+        .row()
+        .url(
+            locale(ctx.user.lang).moreAboutLabel,
+            locale(ctx.user.lang).moreAboutUrl
+        );
 
     await ctx.reply(locale(ctx.user.lang).storiesHelp, {});
 }

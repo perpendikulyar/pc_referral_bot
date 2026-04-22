@@ -53,8 +53,19 @@ export class Router<C extends Context> implements MiddlewareObj<C> {
     }
 
     public registerRoutes(routes: Array<Route>) {
-        routes.forEach((e) => {
-            this.addRoute(e.command);
+        this._routes = [];
+        this.routeHandlers = {};
+        routes.forEach((route) => {
+            this._routes.push(route);
+            this.route(
+                route.command,
+                route.guard
+                    ? route.guard
+                    : async (ctx, next: NextFunction) => {
+                          await next();
+                      },
+                route.handler
+            );
         });
     }
 
@@ -100,6 +111,7 @@ export class Router<C extends Context> implements MiddlewareObj<C> {
 
     public removeRoute(command: string) {
         this._routes = this._routes.filter((e) => e.command != command);
+        this.routeHandlers = {};
         this.registerRoutes(this._routes);
     }
 

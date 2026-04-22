@@ -15,12 +15,9 @@ export class QrCodeService {
                 },
             });
 
-            await ctx.replyWithPhoto(
-                new InputFile(new Uint8Array(data), 'qr-code.png')
-            ),
-                {
-                    caption: 'Твой QR-код готов!',
-                };
+            await ctx.replyWithPhoto(new InputFile(new Uint8Array(data), 'qr-code.png'), {
+                caption: 'Твой QR-код готов!',
+            });
         } catch (error) {
             console.error('Error on QR code generation:', error);
             ctx.reply('Не удалось сгенерировать QR-код');

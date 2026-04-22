@@ -91,22 +91,30 @@ export class SheetService {
         let p3: string[] = [];
         let p4: string[] = [];
 
-        rows.forEach(async (e) => {
-            if (e.get('p1')) p1.push(e.get('p1'));
-            if (e.get('p2')) p2.push(e.get('p2'));
-            if (e.get('p3')) p3.push(e.get('p3'));
-            if (e.get('p4')) p4.push(e.get('p4'));
+        rows.forEach((e) => {
+            const v1 = e.get('p1');
+            const v2 = e.get('p2');
+            const v3 = e.get('p3');
+            const v4 = e.get('p4');
+
+            if (v1) p1.push(v1);
+            if (v2) p2.push(v2);
+            if (v3) p3.push(v3);
+            if (v4) p4.push(v4);
         });
 
-        return (
-            p1[Math.floor(Math.random() * p1.length)] +
-            '\n\n' +
-            p2[Math.floor(Math.random() * p2.length)] +
-            '\n' +
-            p3[Math.floor(Math.random() * p3.length)] +
-            '\n\n' +
-            p4[Math.floor(Math.random() * p4.length)] +
-            '\n'
-        );
+        const randomOrEmpty = (arr: string[]) =>
+            arr.length ? arr[Math.floor(Math.random() * arr.length)] : '';
+
+        const parts = [
+            randomOrEmpty(p1),
+            randomOrEmpty(p2),
+            randomOrEmpty(p3),
+            randomOrEmpty(p4),
+        ].filter(Boolean);
+
+        return parts.length
+            ? parts.join('\n\n') + '\n'
+            : 'Приглашение пока не готово. Попробуйте позже.';
     }
 }

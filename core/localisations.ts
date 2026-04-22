@@ -116,6 +116,6 @@ export function locale(lang: string = ''): Locale {
     if (lang === 'ru') {
         return localeRU;
     } else {
-        return localeRU;
+        return localeDefault;
     }
 }

@@ -11,12 +11,12 @@ export class CommandsService {
         const lang = ctx.user.lang;
         inlineKeyborad
             .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
-            // .row()
-            // .text(locale(lang).getInvite, 'getInvite')
+            .row()
+            .text(locale(lang).getInvite, 'getInvite')
             .row()
             .text(locale(lang).stories, 'getStories')
-            // .row()
-            // .text(locale(lang).getQr, 'generateQr');
+            .row()
+            .text(locale(lang).getQr, 'generateQr');
 
         await ctx.reply(locale(lang).genKeyboard, {
             parse_mode: 'Markdown',
@@ -51,14 +51,20 @@ export class CommandsService {
             const profileAvatars: UserProfilePhotos =
                 await ctx.api.getUserProfilePhotos(userId);
 
-            if (!profileAvatars.photos.length) {
+            if (!profileAvatars.photos.length || !profileAvatars.photos[0].length) {
                 await ctx.reply('У вас нет аватара в Telegram!');
                 return;
             }
 
-            const avatarFile = await ctx.api.getFile(
-                profileAvatars.photos[0][2].file_id
-            );
+            const photoSizes = profileAvatars.photos[0];
+            const avatarPhoto = photoSizes[photoSizes.length - 1] ?? photoSizes[0];
+
+            if (!avatarPhoto?.file_id) {
+                await ctx.reply('Не удалось получить ваш аватар. Попробуйте снова.');
+                return;
+            }
+
+            const avatarFile = await ctx.api.getFile(avatarPhoto.file_id);
 
             return `https://api.telegram.org/file/bot${botInstance.token}/${avatarFile.file_path}`;
         } catch (error: unknown) {
