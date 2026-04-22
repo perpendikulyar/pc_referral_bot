@@ -64,8 +64,8 @@ export async function results(ctx: CommandContext<Context>) {
 export async function help(ctx: CommandContext<Context>) {
     const inlineKeyborad = new InlineKeyboard();
     inlineKeyborad
-        // .text(locale(ctx.user.lang).getLink, 'getLink')
-        // .row()
+        .text(locale(ctx.user.lang).getLink, 'getLink')
+        .row()
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
         .url(
