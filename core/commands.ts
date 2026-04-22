@@ -24,7 +24,7 @@ export async function start(ctx: CommandContext<Context>) {
     } else {
         const inlineKeyborad = new InlineKeyboard();
         inlineKeyborad
-            .text('Результаты', ROUTES.results)
+            .text(locale('ru').getLink, ROUTES.generate)
             .row()
             .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl);
 
