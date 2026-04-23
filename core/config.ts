@@ -14,12 +14,22 @@ interface IConfig {
 dotenv.config();
 
 export default function getConfig(): IConfig {
+    const firebaseConfig = process.env.FIREBASE_CONFIG
+        ? JSON.parse(process.env.FIREBASE_CONFIG)
+        : ({} as FirebaseOptions);
+    const googleapiConfig = process.env.G_API_CONFIG
+        ? JSON.parse(process.env.G_API_CONFIG)
+        : ({} as JWTInput);
+    const analytics = process.env.GA_CONFIG
+        ? JSON.parse(process.env.GA_CONFIG)
+        : { m_id: '', secret: '' };
+
     const config: IConfig = {
         tgToken: process.env.TG_TOKEN || '',
         sheetId: process.env.G_SHEET_ID || '',
-        firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG || ''),
-        googleapiConfig: JSON.parse(process.env.G_API_CONFIG || ''),
-        analytics: JSON.parse(process.env.GA_CONFIG || ''),
+        firebaseConfig,
+        googleapiConfig,
+        analytics,
         admins: process.env.ADMINS?.split(',') || [],
     };
 
@@ -29,6 +39,18 @@ export default function getConfig(): IConfig {
 
     if (!config.sheetId) {
         console.error('UNDEFIND SPREADSHEET ID');
+    }
+
+    if (!process.env.FIREBASE_CONFIG) {
+        console.error('FIREBASE_CONFIG is not set');
+    }
+
+    if (!process.env.G_API_CONFIG) {
+        console.error('G_API_CONFIG is not set');
+    }
+
+    if (!process.env.GA_CONFIG) {
+        console.error('GA_CONFIG is not set');
     }
 
     return config;
