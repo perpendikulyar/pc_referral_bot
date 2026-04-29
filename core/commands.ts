@@ -148,27 +148,31 @@ export async function onGetStoriesTemplates(ctx: Context) {
         },
         {
             type: 'photo',
+            media: await assetsService.getStorageImage('story-aa.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('story-bb.png'),
+        },
+        {
+            type: 'photo',
+            media: await assetsService.getStorageImage('story-cc.png'),
+        },
+        {
+            type: 'photo',
             media: await assetsService.getStorageImage('dark-story.png'),
         },
         {
             type: 'photo',
-            media: await assetsService.getStorageImage('bright-story.png'),
+            media: await assetsService.getStorageImage('sq-aa.png'),
         },
         {
             type: 'photo',
-            media: await assetsService.getStorageImage('dark-sq.png'),
+            media: await assetsService.getStorageImage('sq-bb.png'),
         },
         {
             type: 'photo',
-            media: await assetsService.getStorageImage('bright-sq.png'),
-        },
-        {
-            type: 'photo',
-            media: await assetsService.getStorageImage('planet.png'),
-        },
-        {
-            type: 'photo',
-            media: await assetsService.getStorageImage('sins.png'),
+            media: await assetsService.getStorageImage('sq-cc.png'),
         },
     ]);
 
