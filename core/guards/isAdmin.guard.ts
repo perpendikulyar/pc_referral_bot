@@ -1,7 +1,7 @@
 import { Context, NextFunction } from 'grammy';
 import { AssetsService } from '../services/assets.service';
 
-const asstetService = new AssetsService();
+const assetService = new AssetsService();
 
 export async function isAdmin(
     ctx: Context,
@@ -9,7 +9,7 @@ export async function isAdmin(
 ): Promise<boolean> {
     if (!ctx.user.isAdmin) {
         await ctx.replyWithPhoto(
-            await asstetService.getStorageImage('admin-guard.jpg')
+            await assetService.getStorageImage('admin-guard.jpg')
         );
         await ctx.reply('You shall not pass');
         return false;

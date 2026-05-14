@@ -38,7 +38,7 @@ export default function getConfig(): IConfig {
     }
 
     if (!config.sheetId) {
-        console.error('UNDEFIND SPREADSHEET ID');
+        console.error('UNDEFINED SPREADSHEET ID');
     }
 
     if (!process.env.FIREBASE_CONFIG) {

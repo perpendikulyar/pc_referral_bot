@@ -3,7 +3,7 @@ import { AnalyticsService } from '../services/google_api/analytics.service';
 
 const analyticsService = new AnalyticsService();
 
-export async function gaMidleware(
+export async function gaMiddleware(
     ctx: Context,
     next: NextFunction
 ): Promise<void> {

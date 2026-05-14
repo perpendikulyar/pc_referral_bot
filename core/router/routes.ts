@@ -123,7 +123,7 @@ export const applicationRoutes = (): Route[] => {
             allowedInMenu: true,
         },
         {
-            command: ROUTES.brodcast,
+            command: ROUTES.broadcast,
             type: 'hears',
             description: 'start broadcast',
             handler: commands.onStartBroadcast,

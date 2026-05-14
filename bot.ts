@@ -7,10 +7,10 @@ import {
 
 import { botInstance } from './core/bot.instance';
 import { Router } from './core/router/router';
-import { loggerMiddleware } from './core/middlewares/looger.midleware';
+import { loggerMiddleware } from './core/middlewares/logger.middleware';
 import { contextExtenderMiddleware } from './core/middlewares/context-extender.middleware';
-import { gaMidleware } from './core/middlewares/ga.midleware';
-import { brodcastMessage } from './core/services/brodcast.service';
+import { gaMiddleware } from './core/middlewares/ga.middleware';
+import { broadcastMessage } from './core/services/broadcast.service';
 import { autoRetry } from '@grammyjs/auto-retry';
 import { applicationRoutes } from './core/router/routes';
 
@@ -25,9 +25,9 @@ router.registerRoutes(applicationRoutes());
 bot.use(
     contextExtenderMiddleware,
     loggerMiddleware,
-    gaMidleware,
+    gaMiddleware,
     conversations(),
-    createConversation(brodcastMessage),
+    createConversation(broadcastMessage),
     router
 );
 
