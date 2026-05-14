@@ -15,21 +15,21 @@ const linkService = new LinkService();
 const qrCodeService = new QrCodeService();
 
 export async function start(ctx: CommandContext<Context>) {
-    const inlineKeyborad = new InlineKeyboard();
+    const inlineKeyboard = new InlineKeyboard();
     if (ctx.source === 'avatar') {
         await ctx.reply(
             'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!'
         );
         await onGenerateAvatar(ctx);
     } else {
-        const inlineKeyborad = new InlineKeyboard();
-        inlineKeyborad
+        const inlineKeyboard = new InlineKeyboard();
+        inlineKeyboard
             .text(locale('ru').getLink, ROUTES.generate)
             .row()
             .url(locale('ru').moreAboutLabel, locale('ru').moreAboutUrl);
 
         await ctx.reply(locale('ru').welcome, {
-            reply_markup: inlineKeyborad,
+            reply_markup: inlineKeyboard,
             parse_mode: 'Markdown',
             link_preview_options: { is_disabled: true },
         });
@@ -45,10 +45,10 @@ export async function generate(ctx: CommandContext<Context>) {
         link_preview_options: { is_disabled: true },
         reply_markup: { remove_keyboard: true },
     });
-    const inlineKeyborad = CommandsService.appKeyboard(ctx);
+    const inlineKeyboard = CommandsService.appKeyboard(ctx);
 
     await ctx.reply(locale(ctx.user.lang).generatorExplain, {
-        reply_markup: inlineKeyborad,
+        reply_markup: inlineKeyboard,
         parse_mode: 'Markdown',
         link_preview_options: { is_disabled: true },
     });
@@ -62,8 +62,8 @@ export async function results(ctx: CommandContext<Context>) {
 }
 
 export async function help(ctx: CommandContext<Context>) {
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
+    const inlineKeyboard = new InlineKeyboard();
+    inlineKeyboard
         .text(locale(ctx.user.lang).getLink, 'getLink')
         .row()
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
@@ -73,7 +73,7 @@ export async function help(ctx: CommandContext<Context>) {
             locale(ctx.user.lang).moreAboutUrl
         );
     await ctx.reply(locale(ctx.user.lang).helpText, {
-        reply_markup: inlineKeyborad,
+        reply_markup: inlineKeyboard,
         parse_mode: 'Markdown',
         link_preview_options: { is_disabled: true },
     });
@@ -110,13 +110,13 @@ export async function onGetInvite(ctx: Context) {
     const name = ctx.user.username || 'guest';
     const inviteText = await sheetService.getInvite();
     const link = await linkService.getUrl(name);
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad.text(locale(ctx.user.lang).getAnotherInvite, 'getInvite');
+    const inlineKeyboard = new InlineKeyboard();
+    inlineKeyboard.text(locale(ctx.user.lang).getAnotherInvite, 'getInvite');
     await ctx.reply(
         inviteText + '\n' + locale(ctx.user.lang).register + '\n\n' + link,
         {
             link_preview_options: { is_disabled: true },
-            reply_markup: inlineKeyborad,
+            reply_markup: inlineKeyboard,
         }
     );
 }
@@ -126,8 +126,8 @@ export async function onGenerateQr(ctx: Context) {
     const name = user?.username || 'guest';
     const link = await linkService.getUrl(name);
     await qrCodeService.generate(ctx, link);
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
+    const inlineKeyboard = new InlineKeyboard();
+    inlineKeyboard
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
         .url(
@@ -136,7 +136,7 @@ export async function onGenerateQr(ctx: Context) {
         );
 
     await ctx.reply(locale(ctx.user.lang).qrReady, {
-        reply_markup: inlineKeyborad,
+        reply_markup: inlineKeyboard,
     });
 }
 
@@ -176,8 +176,8 @@ export async function onGetStoriesTemplates(ctx: Context) {
         },
     ]);
 
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
+    const inlineKeyboard = new InlineKeyboard();
+    inlineKeyboard
         .text(locale(ctx.user.lang).generatorMoreBtn, 'generatorMoreData')
         .row()
         .url(
@@ -208,8 +208,8 @@ export async function onGenerateAvatar(ctx: Context) {
         },
     ]);
 
-    const inlineKeyborad = new InlineKeyboard();
-    inlineKeyborad
+    const inlineKeyboard = new InlineKeyboard();
+    inlineKeyboard
         .text('1', 'avatar-center')
         .text('2', 'avatar-round')
         .row()
@@ -217,7 +217,7 @@ export async function onGenerateAvatar(ctx: Context) {
         .text('4', 'avatar-right');
 
     await ctx.reply('Выбери, какой аватар тебе больше подходит', {
-        reply_markup: inlineKeyborad,
+        reply_markup: inlineKeyboard,
     });
 }
 

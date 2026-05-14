@@ -7,9 +7,9 @@ import { ROUTES } from './router/routes.enum';
 export class CommandsService {
     /* generateKeyboard() send a reply with all functions to generate some media */
     public static async generateKeyboard(ctx: Context) {
-        const inlineKeyborad = new InlineKeyboard();
+        const inlineKeyboard = new InlineKeyboard();
         const lang = ctx.user.lang;
-        inlineKeyborad
+        inlineKeyboard
             .text('Сделать аватар Кэмпа', ROUTES.generateAvatar)
             .row()
             .text(locale(lang).getInvite, 'getInvite')
@@ -20,7 +20,7 @@ export class CommandsService {
 
         await ctx.reply(locale(lang).genKeyboard, {
             parse_mode: 'Markdown',
-            reply_markup: inlineKeyborad,
+            reply_markup: inlineKeyboard,
             link_preview_options: { is_disabled: true },
         });
     }
