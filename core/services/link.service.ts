@@ -1,6 +1,6 @@
-const baseUrl: String = 'https://productcamp.ru/';
-const utmMedium: String = 'referral';
-const utmCampaign: String = 'refProg';
+const BASE_URL = 'https://productcamp.ru/';
+const UTM_MEDIUM = 'referral';
+const UTM_CAMPAIGN = 'refProg';
 
 export class LinkService {
     private _endpoint = 'https://clck.ru/--';
@@ -11,7 +11,9 @@ export class LinkService {
     }
 
     public async getUrl(ref: string): Promise<string> {
-        const url = `${baseUrl}?utm_medium=${utmMedium}&utm_source=${ref}&utm_campaign=${utmCampaign}`;
-        return await this.minify(encodeURIComponent(url));
+        // Экранируем только значение utm_source, так как оно поступает от пользователя
+        const safeRef = encodeURIComponent(ref);
+        const url = `${BASE_URL}?utm_medium=${UTM_MEDIUM}&utm_source=${safeRef}&utm_campaign=${UTM_CAMPAIGN}`;
+        return await this.minify(url);
     }
 }
