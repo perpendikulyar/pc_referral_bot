@@ -43,7 +43,7 @@ const localeRU: Locale = {
 🫶 А еще мы сделали генератор инвайтов — воспользуйся им, и получишь прикольный текст приглашения 💅`,
     generatorMoreBtn: '🤔 Где размещать?',
     moreAboutLabel: `Подробнее о программе`,
-    moreAboutUrl: `https://productcamp.ru/refprogram_autumn_2025?utm_medium=bot&utm_source=pc_referral_bot&utm_campaign=info`,
+    moreAboutUrl: `https://productcamp.ru/refprogram_summer_2026?utm_medium=bot&utm_source=pc_referral_bot&utm_campaign=info`,
     getLink: '🎯 Получить новую ссылку',
     helpText: `Этот бот помогает создать специальную ссылку для участия в реферальной программе ProductCamp 2026.\n
 А если ты столкнешься с проблемами, багами или у тебя будут предолжения по работе бота, то обязательно пиши нам сюда 👇\n
