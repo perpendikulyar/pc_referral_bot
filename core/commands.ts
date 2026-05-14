@@ -80,7 +80,7 @@ export async function help(ctx: CommandContext<Context>) {
 }
 
 export async function adminPanel(ctx: Context) {
-    const keyboard = new Keyboard().text(ROUTES.brodcast);
+    const keyboard = new Keyboard().text(ROUTES.broadcast);
     await ctx.reply('Это админка', {
         reply_markup: keyboard,
     });

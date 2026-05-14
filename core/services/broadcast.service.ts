@@ -3,7 +3,7 @@ import { Conversation } from '@grammyjs/conversations';
 
 import { SheetService } from './google_api/sheet.service';
 
-export async function brodcastMessage(
+export async function broadcastMessage(
     conversation: Conversation,
     ctx: Context,
     args?: { chatIds: number[] }
