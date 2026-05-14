@@ -6,7 +6,7 @@
 
 ## Критические замечания
 
-1.  **Опечатки в названиях файлов и переменных**:
+1.  **Опечатки в названиях файлов и переменных**: ✅ **Исправлено**
     *   `brodcast.service.ts` -> `broadcast.service.ts`
     *   `looger.midleware.ts` -> `logger.middleware.ts`
     *   `ga.midleware.ts` -> `ga.middleware.ts`
@@ -19,6 +19,8 @@
     *   `inlineKeyborad` -> `inlineKeyboard`
     *   `UNDEFIND` -> `UNDEFINED`
     *   `cmdGenerate` -> `cmdGenerate`
+    *   `gaMidleware` -> `gaMiddleware` ✅
+    *   `brodcastMessage` -> `broadcastMessage` ✅
 
     **Важно**: Эти опечатки не только ухудшают читаемость, но и могут привести к ошибкам при рефакторинге или подключении новых функций. Исправление должно быть приоритетом.
 
