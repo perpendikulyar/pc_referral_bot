@@ -17,4 +17,5 @@ export enum ROUTES {
     message = 'message',
     promoMaterials = 'promoMaterials',
     results = 'results',
+    generateSpecialLink = 'generateSpecialLink',
 }

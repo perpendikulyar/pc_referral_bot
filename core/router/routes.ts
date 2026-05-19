@@ -130,6 +130,13 @@ export const applicationRoutes = (): Route[] => {
             guard: isAdmin,
         },
         {
+            command: ROUTES.generateSpecialLink,
+            type: 'command',
+            description: 'Generate special link',
+            handler: async (ctx) =>
+                commands.onGetLink(ctx as CommandContext<Context>),
+        },
+        {
             command: ROUTES.message,
             type: 'specific',
             handler: commands.onMessage,

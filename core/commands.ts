@@ -21,6 +21,11 @@ export async function start(ctx: CommandContext<Context>) {
             'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Теперь ты можешь сделать себе фирменную аватарку кэмпа!'
         );
         await onGenerateAvatar(ctx);
+    } else if (ctx.source === 'special_link') {
+        await ctx.reply(
+            'Привет, это реферальный бот ProductCamp.\n\n🔥🔥🔥 Получи особенную ссылку - приведи по ней друзей на кэмп и получи 10 баллов за кажого!'
+        );
+        await generateSpecialLink(ctx);
     } else {
         const inlineKeyboard = new InlineKeyboard();
         inlineKeyboard
@@ -48,6 +53,26 @@ export async function generate(ctx: CommandContext<Context>) {
     const inlineKeyboard = CommandsService.appKeyboard(ctx);
 
     await ctx.reply(locale(ctx.user.lang).generatorExplain, {
+        reply_markup: inlineKeyboard,
+        parse_mode: 'Markdown',
+        link_preview_options: { is_disabled: true },
+    });
+}
+
+export async function generateSpecialLink(ctx: CommandContext<Context>) {
+    const user = ctx.from;
+    const name = user?.username || 'guest';
+    const spec = 'special';
+    const url = await linkService.getUrl(name, spec);
+    await UserLink.createAndSave(name, url);
+    await ctx.reply(`${url}`, {
+        link_preview_options: { is_disabled: true },
+        reply_markup: { remove_keyboard: true },
+    });
+
+    const inlineKeyboard = CommandsService.appKeyboard(ctx);
+
+    await ctx.reply(locale(ctx.user.lang).specialLinkExplain, {
         reply_markup: inlineKeyboard,
         parse_mode: 'Markdown',
         link_preview_options: { is_disabled: true },
