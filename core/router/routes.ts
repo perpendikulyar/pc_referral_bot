@@ -134,7 +134,7 @@ export const applicationRoutes = (): Route[] => {
             type: 'command',
             description: 'Generate special link',
             handler: async (ctx) =>
-                commands.onGetLink(ctx as CommandContext<Context>),
+                commands.generateSpecialLink(ctx as CommandContext<Context>),
         },
         {
             command: ROUTES.message,
