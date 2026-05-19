@@ -62,8 +62,10 @@ export async function generate(ctx: CommandContext<Context>) {
 export async function generateSpecialLink(ctx: CommandContext<Context>) {
     const user = ctx.from;
     const name = user?.username || 'guest';
-    const spec = 'special';
-    const url = await linkService.getUrl(name, spec);
+    const specUrl = 'https://productcamp.ru/reg-hotel';
+    const term = 'special';
+
+    const url = await linkService.getUrl(name, term);
     await UserLink.createAndSave(name, url);
     await ctx.reply(`${url}`, {
         link_preview_options: { is_disabled: true },
