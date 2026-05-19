@@ -10,11 +10,16 @@ export class LinkService {
         return result.text();
     }
 
-    public async getUrl(ref: string, spec: string = ''): Promise<string> {
+    public async getUrl(
+        ref: string,
+        baseUrl: string = BASE_URL,
+        spec: string = ''
+    ): Promise<string> {
         // Экранируем только значение utm_source, так как оно поступает от пользователя
         const safeRef = encodeURIComponent(ref);
         const safeSpec = encodeURIComponent(spec);
-        const url = `${BASE_URL}?utm_medium=${UTM_MEDIUM}&utm_source=${safeRef}&utm_campaign=${UTM_CAMPAIGN}`;
+        const safeBaseUrl = encodeURIComponent(baseUrl);
+        const url = `${safeBaseUrl}?utm_medium=${UTM_MEDIUM}&utm_source=${safeRef}&utm_campaign=${UTM_CAMPAIGN}`;
         if (spec) {
             return await this.minify(`${url}&utm_term=${safeSpec}`);
         }
