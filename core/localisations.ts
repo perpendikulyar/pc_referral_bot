@@ -23,6 +23,7 @@ interface Locale {
     orgPollLink: string;
     orgPollLabel: string;
     results: string;
+    specialLinkExplain: string;
 }
 
 const localeRU: Locale = {
@@ -74,6 +75,8 @@ const localeRU: Locale = {
 🥉 alexandrardashev\n
 Увидимся на кэмпе!
 `,
+    specialLinkExplain: `
+С этой ссылкой ты ближе к тому, чтобы стать амбассадором ProductCamp. За каждую регисрацию по этой ссылке ты получишь 10 баллов, а это значит, что тебе нужно всего 3 регистрации, чтобы попасть в топ-10 \n`,
 };
 
 const localeDefault: Locale = {
@@ -110,6 +113,9 @@ Run /generate command to get the link and send it to all your interested friends
     orgPollLink: `https://forms.yandex.ru/u/67dc2c7002848fb016767829/`,
     orgPollLabel: 'Пройти опрос',
     results: ``,
+    specialLinkExplain: `Hi \n
+    This Bot can help you to generate a special link to take part in ProductCamp Referral Program! \n
+    If you get enough referrals, you could get some rewards or take part in offline Camp events!`,
 };
 
 export function locale(lang: string = ''): Locale {
